@@ -1,0 +1,27 @@
+﻿@model List<Parking.Models.Client>
+
+@{
+    ViewData["Title"] = "Client List";
+}
+
+<h1>Список Клиентов</h1>
+
+@if (Model != null && Model.Any())
+{
+    <ul>
+        @foreach (var client in Model)
+        {
+            <li>
+                <strong>Имя:</strong> @client.FirstName @client.MiddleName @client.LastName <br />
+                <strong>Телефон:</strong> @client.Phone <br />
+                <strong>Адрес:</strong> @client.Address <br />
+                <strong>Client ID:</strong> @client.ClientId <br />
+                <strong>Application User ID:</strong> @client.ApplicationUserId
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>Данные отсутствуют.</p>
+}
