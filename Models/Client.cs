@@ -14,8 +14,8 @@ namespace Parking.Models
         //public virtual ICollection<Contract> Contracts { get; set; } = new List<Contract>();
 
         //TODO
-        //public string? ApplicationUserId { get; set; }
-        //public virtual ApplicationUser ApplicationUser { get; set; }
+        public string? ApplicationUserId { get; set; }
+        public virtual ApplicationUser ApplicationUser { get; set; }
 
     }
 }

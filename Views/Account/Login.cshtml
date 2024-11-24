@@ -1,0 +1,27 @@
+﻿@model Parking.Models.LoginViewModel
+
+<div class="container flex h-screen items-center justify-center">
+    <form asp-action="Login" method="post" class="px-10 py-10 bg-white gap-6 mx-6 flex w-full flex-col items-center rounded-3xl shadow-2xl sm:px-16 sm:mx-0 sm:w-4/5 lg:w-1/2">
+        <a asp-area="" asp-controller="Home" asp-action="Index">
+            <span class="text-blue-500 text-3xl font-semibold">Parking</span>
+        </a>
+      <h1 class="text-center text-2xl font-semibold">Войти</h1>
+      <div class="form__wrapper">
+        <label asp-for="Email" class="form__label" for="email">Email</label>
+        <input asp-for="Email" class="form__input" id="email" placeholder="parking@lot.com" />
+        <span asp-validation-for="Email" class="form__error"></span>
+      </div>
+      <div class="form__wrapper">
+          <label asp-for="Password" class="form__label" for="password">Пароль</label>
+          <input asp-for="Password" type="password" class="form__input" id="password" placeholder="••••••••" />
+          <span asp-validation-for="Password" class="form__error"></span>
+      </div>
+      <div class="gap-2 flex items-center justify-start">
+          <input asp-for="RememberMe" type="checkbox" id="remember" class="w-6 h-6" />
+          <label asp-for="RememberMe" for="remember" class="form__label">Запомнить меня</label>
+      </div>
+        <button type="submit" class="blue__button w-full md:w-3/4">Войти</button>
+        <p class="text-center">У вас нет аккаунта? <a class="blue__link font-semibold" asp-area="" asp-controller="Account" asp-action="Register">Зарегистрироваться</a></p>
+
+  </form>
+</div>
