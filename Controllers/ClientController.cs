@@ -1,43 +1,8 @@
-﻿//using Microsoft.AspNetCore.Mvc;
-//using Parking.Data;
-//using Parking.Models;
-//using System.Linq;
-
-//namespace Parking.Controllers
-//{
-//    public class ClientController : Controller
-//    {
-//        private readonly ApplicationDbContext _context;
-
-//        public ClientController(ApplicationDbContext context)
-//        {
-//            _context = context;
-//        }
-
-//        public IActionResult Index()
-//        {
-//            var clients = _context.Clients.ToList();
-
-//            if (clients == null || !clients.Any())
-//            {
-//                // Логирование, если список пустой
-//                Console.WriteLine("Список клиентов пуст.");
-//            }
-//            else
-//            {
-//                Console.WriteLine($"Найдено {clients.Count} клиентов.");
-//            }
-
-//            return View(clients);
-//        }
-
-//    }
-//}
-
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Parking.Data;
 using Parking.Models;
 using System.Linq;
+using System.Security.Claims;
 
 namespace Parking.Controllers
 {
@@ -52,25 +17,18 @@ namespace Parking.Controllers
 
         public IActionResult Index()
         {
-            var clients = _context.Clients.ToList();
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var client = _context.Clients.FirstOrDefault(c => c.ApplicationUserId == userId);
 
-            if (clients == null || !clients.Any())
+            if (client == null)
             {
-                // Логирование, если список пустой
-                Console.WriteLine("Список клиентов пуст.");
-            }
-            else
-            {
-                Console.WriteLine($"Найдено {clients.Count} клиентов:");
-                foreach (var client in clients)
-                {
-                    // Выведите информацию о каждом клиенте в консоль
-                    Console.WriteLine($"Клиент ID: {client.ClientId}, Имя: {client.FirstName}, Фамилия: {client.LastName}, Телефон: {client.Phone}, Адрес: {client.Address}");
-                }
+                return NotFound();
             }
 
-            return View(clients);
+            return View(client);
         }
+
+
     }
 }
 

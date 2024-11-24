@@ -41,7 +41,7 @@ public class AccountController : Controller
                     MiddleName = model.MiddleName,
                     Phone = model.Phone,
                     Address = model.Address,
-                    // Задайте идентификатор пользователя
+                    Email = model.Email,
                     ApplicationUserId = user.Id
                 };
 
@@ -98,5 +98,6 @@ public class AccountController : Controller
         await _signInManager.SignOutAsync();
         return RedirectToAction("Index", "Home");
     }
+
 
 }
