@@ -49,7 +49,7 @@ public class AccountController : Controller
                 await _context.SaveChangesAsync();
 
                 await _signInManager.SignInAsync(user, isPersistent: false);
-                return RedirectToAction("ClientPage", "Home");
+                return RedirectToAction("Index", "Client");
             }
             foreach (var error in result.Errors)
             {
@@ -88,7 +88,7 @@ public class AccountController : Controller
         {
             return Redirect(returnUrl);
         }
-        return RedirectToAction("ClientPage", "Home");
+        return RedirectToAction("Index", "Client");
     }
 
     [HttpPost]
