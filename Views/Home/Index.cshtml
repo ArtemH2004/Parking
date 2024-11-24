@@ -2,7 +2,396 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<header class="bg-white w-full shadow-xl">
+    <div class="py-4 gap-10 container z-10 flex w-full items-center justify-between">
+        <a href="#">
+            <span class="text-blue-500 text-3xl font-semibold">Parking</span>
+        </a>
+
+        <nav>
+            <ul class="gap-5 flex items-center justify-center text-lg md:text-xl lg:gap-8">
+                <li class="hidden md:block">
+                    <a href="#about" class="blue__link">О Нас</a>
+                </li>
+                <li class="hidden md:block">
+                    <a href="#service" class="blue__link">Услуги</a>
+                </li>
+                <li class="hidden md:block">
+                    <a href="#contact" class="blue__link">Контакты</a>
+                </li>
+                <li class="hidden md:block">
+                    <a href="#comment" class="blue__link">Отзывы</a>
+                </li>
+                <li>
+                    <a class="blue__link" asp-area="" asp-controller="Account" asp-action="Login">
+                        <img src="./images//icons/enter.svg"
+                             alt="Вход"
+                             class="w-8 h-8 object-contain" />
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+<section class="relative flex h-screen w-full items-center justify-center">
+    <img src="./images/banner.png"
+         alt="Banner"
+         class="left-0 top-0 absolute z-0 h-full w-full object-cover blur-sm contrast-75" />
+
+    <div class="gap-6 z-10 flex h-1/2 w-full flex-col items-center justify-center sm:w-3/5">
+        <h1 class="text-white leading-2 text-center text-4xl sm:text-5xl">
+            Круглосуточная парковка в Воронеже от 40 ₽/час
+        </h1>
+
+        <a class="blue__button h-16 text-white flex w-4/5 items-center justify-center rounded-3xl text-xl md:w-1/2" asp-area="" asp-controller="Account" asp-action="Register">
+            Регистрация
+        </a>
+    </div>
+</section>
+
+<section class="section" id="about">
+    <div class="container">
+        <div class="gap-10 flex flex-col-reverse items-center justify-between md:flex-row">
+            <div class="gap-4 flex w-full flex-col md:w-1/2">
+                <h2 class="text-4xl">О Нас</h2>
+
+                <p>
+                    Мы предлагаем широкий спектр услуг по парковке автомобилей в
+                    Воронеже. Наша автостоянка отличается высоким уровнем безопасности
+                    и удобным расположением. Мы заботимся о каждом клиенте и
+                    предоставляем услуги по доступным ценам. Вас приятно удивит наше
+                    внимательное обслуживание и гибкий график работы.
+                </p>
+
+                <span class="text-blue-900 gap-2 flex flex-col items-center text-3xl font-semibold sm:flex-row">
+                    Звоните:
+                    <a href="tel:88005553535" class="blue__link text-blue-900">8 (800) 555-35-35</a>
+                </span>
+            </div>
+
+            <img src="./images/about.png"
+                 alt="About us"
+                 class="aspect-auto w-2/5 object-cover" />
+        </div>
+    </div>
+</section>
+
+<section class="section bg-white shadow-2xl">
+    <h2 class="visually-hidden">Приемущества</h2>
+    <div class="container">
+        <ul class="gap-6 grid grid-cols-1 md:grid-cols-3">
+            <li class="gap-4 p-4 flex flex-col items-center justify-center">
+                <h3 class="text-center text-3xl">Быстро</h3>
+                <img src="./images/icons/fast.svg"
+                     alt=""
+                     class="w-20 aspect-auto" />
+                <p>
+                    Мы ценим время наших клиентов, обеспечивая быструю парковку и
+                    быстрый доступ к вашему автомобилю.
+                </p>
+            </li>
+            <li class="gap-4 p-4 flex flex-col items-center justify-center">
+                <h3 class="text-center text-3xl">Надежно</h3>
+                <img src="./images/icons/safe.svg"
+                     alt=""
+                     class="w-20 aspect-auto" />
+                <p>
+                    Мы гарантируем безопасность вашего автомобиля, благодаря
+                    круглосуточной охране и системе видеонаблюдения.
+                </p>
+            </li>
+            <li class="gap-4 p-4 flex flex-col items-center justify-center">
+                <h3 class="text-center text-3xl">Доступно</h3>
+                <img src="./images/icons/available.svg"
+                     alt=""
+                     class="w-20 aspect-auto" />
+                <p>
+                    Мы стремимся сделать наши услуги максимально доступными и
+                    предлагаем оптимальное соотношение качества и цены.
+                </p>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class="section relative">
+    <img src="./images/special.jpg"
+         alt="Banner"
+         class="left-0 top-0 absolute z-0 h-full w-full object-cover blur-sm contrast-75" />
+
+    <div class="gap-8 container relative z-10 flex flex-col">
+        <h2 class="text-blue-100 z-10 text-4xl">Специальные предложения</h2>
+
+        <ul class="gap-8 flex flex-col items-center justify-between md:flex-row">
+            <li class="h-80 relative w-full shadow-2xl duration-300 hover:-translate-y-2 md:w-1/2">
+                <img src="./images/sale.jpg"
+                     alt="Скидка на первое посещение"
+                     class="left-0 top-0 absolute z-0 h-full w-full rounded-2xl object-cover" />
+                <div class="text-white w-ful from-transparent to-gray-700 p-8 gap-2 relative z-10 flex h-full flex-col justify-end rounded-2xl bg-gradient-to-b">
+                    <h3 class="text-blue-100 z-10 text-3xl">
+                        Скидка на первое посещение
+                    </h3>
+                    <p class="z-10 hidden lg:block">
+                        Приезжая к нам впервые, вы получаете скидку 20% на услуги
+                        парковки! Также вы можете оформить клубную карту с постоянной
+                        скидкой 5%.
+                    </p>
+                </div>
+            </li>
+
+            <li class="h-80 relative w-full shadow-2xl duration-300 hover:-translate-y-2 md:w-1/2">
+                <img src="./images/long-lot.jpg"
+                     alt="Долгосрочная парковка"
+                     class="left-0 top-0 absolute z-0 h-full w-full rounded-2xl object-cover" />
+                <div class="text-white w-ful from-transparent to-gray-700 p-8 gap-2 relative z-10 flex h-full flex-col justify-end rounded-2xl bg-gradient-to-b">
+                    <h3 class="text-blue-100 z-10 text-3xl">Долгосрочная парковка</h3>
+                    <p class="z-10 hidden lg:block">
+                        Ищете место для длительной парковки? Мы предлагаем выгодные
+                        условия для постоянных клиентов!
+                    </p>
+                </div>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class="section" id="service">
+    <div class="container">
+        <div class="gap-4 flex w-full flex-col">
+            <h2 class="text-4xl">Наши услуги</h2>
+            <p>Мы предоставляем широкий спектр услуг, включая:</p>
+
+            <ul class="gap-8 grid w-full grid-cols-1 md:grid-cols-2">
+                <li class="gap-4 p-8 bg-white z-10 flex flex-col rounded-2xl shadow-xl duration-300 hover:-translate-y-2">
+                    <div class="relative">
+                        <img src="./images/auto.jpg"
+                             alt="Экспресс-парковка"
+                             class="h-80 aspect-auto w-full rounded-xl object-cover" />
+                        <p class="left-3 bottom-3 bg-white p-2 absolute z-10 rounded-xl">
+                            от 40 ₽
+                        </p>
+                    </div>
+
+                    <h3 class="text-3xl">Экспресс-парковка</h3>
+                    <p>
+                        Если вам нужно быстро и удобно припарковать автомобиль —
+                        воспользуйтесь нашим предложением экспресс-PARKING.
+                    </p>
+                </li>
+
+                <li class="gap-4 px-8 py-8 bg-white z-10 flex flex-col rounded-2xl shadow-xl duration-300 hover:-translate-y-2">
+                    <div class="relative">
+                        <img src="./images/long-parking.jpg"
+                             alt="Долгосрочная парковка"
+                             class="h-80 aspect-auto w-full rounded-xl object-cover" />
+                        <p class="left-3 bottom-3 bg-white p-2 absolute z-10 rounded-xl">
+                            от 250 ₽
+                        </p>
+                    </div>
+
+                    <h3 class="text-3xl">Долгосрочная парковка</h3>
+                    <p>
+                        Идеальное решение для тех, кто планирует оставить автомобиль на
+                        длительный срок.
+                    </p>
+                </li>
+
+                <li class="gap-4 px-8 py-8 bg-white z-10 flex flex-col rounded-2xl shadow-xl duration-300 hover:-translate-y-2">
+                    <div class="relative">
+                        <img src="./images/special-transport.jpg"
+                             alt="Парковка для спецтехники"
+                             class="h-80 aspect-auto w-full rounded-xl object-cover" />
+                        <p class="left-3 bottom-3 bg-white p-2 absolute z-10 rounded-xl">
+                            от 300 ₽
+                        </p>
+                    </div>
+
+                    <h3 class="text-3xl">Парковка для спецтехники</h3>
+                    <p>
+                        Предоставляем услуги по парковке для спецтехники, имеющей
+                        нестандартные габариты.
+                    </p>
+                </li>
+
+                <li class="gap-4 px-8 py-8 bg-white z-10 flex flex-col rounded-2xl shadow-xl duration-300 hover:-translate-y-2">
+                    <div class="relative">
+                        <img src="./images/bussiness.jpg"
+                             alt="Бизнес парковка"
+                             class="h-80 aspect-auto w-full rounded-xl object-cover" />
+                        <p class="left-3 bottom-3 bg-white p-2 absolute z-10 rounded-xl">
+                            от 500 ₽
+                        </p>
+                    </div>
+
+                    <h3 class="text-3xl">Бизнес парковка</h3>
+                    <p>
+                        Идеальное решение для тех, кто планирует оставить автомобиль на
+                        врямы бизнес сделки.
+                    </p>
+                </li>
+            </ul>
+
+            <div class="pt-6 flex w-full justify-center">
+                <a class="blue__button h-16 text-white flex w-full items-center justify-center rounded-3xl text-xl md:w-1/3" asp-area="" asp-controller="Account" asp-action="Register">
+                    Регистрация
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section bg-white shadow-2xl" id="contact">
+    <div class="gap-10 container flex flex-col-reverse items-center justify-between xl:flex-row-reverse">
+        <div class="gap-4 flex w-full flex-col xl:w-1/2">
+            <h2 class="text-4xl">Контакты</h2>
+
+            <p>Мы работаем круглосуточно и всегда рады обслужить вас!</p>
+
+            <ul class="gap-6 grid grid-cols-1 md:grid-cols-2">
+                <li class="gap-4 p-5 bg-blue-100 flex flex-col items-start justify-center rounded-2xl shadow-2xl">
+                    <h3 class="text-2xl">Стоянка на Тверской</h3>
+                    <div class="gap-3 flex items-center">
+                        <img src="./images/icons/call.svg" alt="" class="w-6 h-6" />
+                        <a href="tel:88005553535" class="blue__link text-black">8 (800) 555-35-35</a>
+                    </div>
+                    <div class="gap-3 flex items-center">
+                        <img src="./images/icons/map.svg" alt="" class="w-6 h-6" />
+                        <a href="#" class="blue__link text-black">ул. Тверская, дом 1</a>
+                    </div>
+                </li>
+                <li class="gap-4 p-5 bg-blue-100 flex flex-col items-start justify-center rounded-2xl shadow-2xl">
+                    <h3 class="text-2xl">Стоянка на Тверской</h3>
+                    <div class="gap-3 flex items-center">
+                        <img src="./images/icons/call.svg" alt="" class="w-6 h-6" />
+                        <a href="tel:88005553535" class="blue__link text-black">8 (800) 555-35-35</a>
+                    </div>
+                    <div class="gap-3 flex items-center">
+                        <img src="./images/icons/map.svg" alt="" class="w-6 h-6" />
+                        <a href="#" class="blue__link text-black">ул. Тверская, дом 1</a>
+                    </div>
+                </li>
+                <li class="gap-4 p-5 bg-blue-100 flex flex-col items-start justify-center rounded-2xl shadow-2xl">
+                    <h3 class="text-2xl">Стоянка на Тверской</h3>
+                    <div class="gap-3 flex items-center">
+                        <img src="./images/icons/call.svg" alt="" class="w-6 h-6" />
+                        <a href="tel:88005553535" class="blue__link text-black">8 (800) 555-35-35</a>
+                    </div>
+                    <div class="gap-3 flex items-center">
+                        <img src="./images/icons/map.svg" alt="" class="w-6 h-6" />
+                        <a href="#" class="blue__link text-black">ул. Тверская, дом 1</a>
+                    </div>
+                </li>
+                <li class="gap-4 p-5 bg-blue-100 flex flex-col items-start justify-center rounded-2xl shadow-2xl">
+                    <h3 class="text-2xl">Стоянка на Тверской</h3>
+                    <div class="gap-3 flex items-center">
+                        <img src="./images/icons/call.svg" alt="" class="w-6 h-6" />
+                        <a href="tel:88005553535" class="blue__link text-black">8 (800) 555-35-35</a>
+                    </div>
+                    <div class="gap-3 flex items-center">
+                        <img src="./images/icons/map.svg" alt="" class="w-6 h-6" />
+                        <a href="#" class="blue__link text-black">ул. Тверская, дом 1</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <img src="./images//contact.jpg"
+             alt="Contact Us"
+             class="aspect-auto w-full md:w-1/2" />
+    </div>
+</section>
+
+<section class="section relative" id="comment">
+    <img src="./images/comment.jpg"
+         alt="Отзывы"
+         class="left-0 top-0 absolute z-0 h-full w-full object-cover blur-sm contrast-75" />
+
+    <div class="gap-8 container flex flex-col">
+        <h2 class="text-blue-100 z-10 text-4xl">Отзывы</h2>
+
+        <ul class="gap-8 grid grid-cols-1 items-center justify-center xl:grid-cols-3">
+            <li class="h-80 bg-white p-8 gap-2 relative flex w-full flex-col items-center justify-center rounded-2xl shadow-2xl duration-300 hover:-translate-y-2">
+                <div class="gap-6 flex items-center justify-between">
+                    <img src="./images/ivan.jpg"
+                         alt="Иван"
+                         class="w-24 h-24 rounded-full object-cover" />
+
+                    <div class="gap-2 flex flex-col">
+                        <h3 class="text-3xl">Иван</h3>
+                        <span class="text-blue-500 text-xl font-medium">Toyota Camry</span>
+                    </div>
+                </div>
+                <p>
+                    Отличное место для парковки! Приятная скидка, цены удобные, а
+                    сотрудники всегда вежливы и внимательны. Рекомендую всем друзьям!
+                </p>
+            </li>
+            <li class="h-80 bg-white p-8 gap-2 relative flex w-full flex-col items-center justify-center rounded-2xl shadow-2xl duration-300 hover:-translate-y-2 xl:h-90">
+                <div class="gap-6 flex items-center justify-between">
+                    <img src="./images/olga.jpg"
+                         alt="Ольга"
+                         class="w-24 h-24 rounded-full object-cover" />
+
+                    <div class="gap-2 flex flex-col">
+                        <h3 class="text-3xl">Ольга</h3>
+                        <span class="text-blue-500 text-xl font-medium">Hyundai Tucson</span>
+                    </div>
+                </div>
+                <p>
+                    Парковка просто супер! Просторные места и отличная безопасность.
+                    Каждый раз, когда оставляю машину здесь, чувствую себя спокойно.
+                    Персонал всегда помогает с bagage и отвечает на все вопросы. Очень
+                    довольна!
+                </p>
+            </li>
+            <li class="h-80 bg-white p-8 gap-2 relative flex w-full flex-col items-center justify-center rounded-2xl shadow-2xl duration-300 hover:-translate-y-2">
+                <div class="gap-6 flex items-center justify-between">
+                    <img src="./images/sergey.jpg"
+                         alt="Сергей"
+                         class="w-24 h-24 rounded-full object-cover" />
+
+                    <div class="gap-2 flex flex-col">
+                        <h3 class="text-3xl">Сергей</h3>
+                        <span class="text-blue-500 text-xl font-medium">BMW 5 Series</span>
+                    </div>
+                </div>
+                <p>
+                    Замечательное сервис! Всегда есть свободные места, что очень
+                    радует. Хорошие цены, особенно для длительной парковки. Персонал
+                    профессиональный и доброжелательный.
+                </p>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<footer class="py-12 bg-white z-10 w-full shadow-xl">
+    <div class="container">
+        <div class="gap-10 grid grid-cols-2 items-center justify-between">
+            <div class="gap-16 flex flex-col justify-between">
+                <a href="#">
+                    <span class="text-blue-500 text-3xl font-semibold">Parking</span>
+                </a>
+
+                <p class="text-gray-500">© 2024 - Parking</p>
+            </div>
+
+            <nav>
+                <ul class="gap-4 flex flex-col items-end">
+                    <li>
+                        <a href="#about" class="blue__link text-xl">О Нас</a>
+                    </li>
+                    <li>
+                        <a href="#service" class="blue__link text-xl">Услуги</a>
+                    </li>
+                    <li>
+                        <a href="#comment" class="blue__link text-xl">Отзывы</a>
+                    </li>
+                    <li>
+                        <a href="#contact" class="blue__link text-xl">Контакты</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</footer>
