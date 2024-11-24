@@ -1,95 +1,55 @@
 ﻿@model Parking.Models.RegisterViewModel
 
-@* <div class="min-vh-100 container flex items-center justify-center"> *@
-@*     <form asp-action="Register" method="post" class="my-12 px-10 py-10 bg-white gap-6 mx-6 flex w-full flex-col items-center rounded-3xl shadow-2xl sm:px-16 sm:mx-0 sm:w-4/5 lg:w-1/2"> *@
-@*         <a asp-area="" asp-controller="Home" asp-action="Index"> *@
-@*             <span class="text-blue-500 text-3xl font-semibold">Parking</span> *@
-@*         </a> *@
-@*         <h1 class="text-center text-2xl font-semibold">Регистрация</h1> *@
+<div class="min-vh-100 container flex items-center justify-center">
+    <form asp-action="Register" method="post" class="my-12 px-10 py-10 bg-white gap-6 mx-6 flex w-full flex-col items-center rounded-3xl shadow-2xl sm:px-16 sm:mx-0 sm:w-4/5 lg:w-1/2">
+        <a asp-area="" asp-controller="Home" asp-action="Index">
+            <span class="text-blue-500 text-3xl font-semibold">Parking</span>
+        </a>
+        <h1 class="text-center text-2xl font-semibold">Регистрация</h1>
 
-@*         <div class="form__wrapper"> *@
-@*             <label asp-for="Email" class="form__label" for="email">Email</label> *@
-@*             <input asp-for="Email" class="form__input" id="email" placeholder="parking@lot.com" /> *@
-@*             <span asp-validation-for="Email" class="form__error"></span> *@
-@*         </div> *@
-@*         <div class="form__wrapper"> *@
-@*             <label asp-for="Password" class="form__label" for="password">Пароль</label> *@
-@*             <input asp-for="Password" type="password" class="form__input" id="password" placeholder="••••••••" /> *@
-@*             <span asp-validation-for="Password" class="form__error"></span> *@
-@*         </div> *@
-@*         <div class="form__wrapper"> *@
-@*             <label asp-for="ConfirmPassword" class="form__label" for="passwordAgain">Повторите пароль</label> *@
-@*             <input asp-for="ConfirmPassword" type="password" class="form__input" id="passwordAgain" placeholder="••••••••" /> *@
-@*             <span asp-validation-for="ConfirmPassword" class="form__error"></span> *@
-@*         </div> *@
-@*         <div class="form__wrapper"> *@
-@*             <label asp-for="Name" class="form__label" for="name">Имя</label> *@
-@*             <input asp-for="Name" type="text" class="form__input" id="name" placeholder="Иван" /> *@
-@*             <span asp-validation-for="Name" class="form__error"></span> *@
-@*         </div> *@
-@*         <div class="form__wrapper"> *@
-@*             <label asp-for="Surname" class="form__label" for="surname">Фамилия</label> *@
-@*             <input asp-for="Surname" type="text" class="form__input" id="surname" placeholder="Иванов" /> *@
-@*             <span asp-validation-for="Surname" class="form__error"></span> *@
-@*         </div> *@
-@*         <button type="submit" class="blue__button w-full md:w-4/5">Зарегистрироваться</button> *@
+        <div class="form__wrapper">
+            <label asp-for="Email" class="form__label" for="email">Email</label>
+            <input asp-for="Email" class="form__input" id="email" placeholder="parking@lot.com" />
+            <span asp-validation-for="Email" class="form__error"></span>
+        </div>
+        <div class="form__wrapper">
+            <label asp-for="Password" class="form__label" for="password">Пароль</label>
+            <input asp-for="Password" type="password" class="form__input" id="password" placeholder="••••••••" />
+            <span asp-validation-for="Password" class="form__error"></span>
+        </div>
+        <div class="form__wrapper">
+            <label asp-for="ConfirmPassword" class="form__label" for="passwordAgain">Повторите пароль</label>
+            <input asp-for="ConfirmPassword" type="password" class="form__input" id="passwordAgain" placeholder="••••••••" />
+            <span asp-validation-for="ConfirmPassword" class="form__error"></span>
+        </div>
+        <div class="form__wrapper">
+            <label asp-for="LastName" class="form__label" for="name">Фамилия</label>
+            <input asp-for="LastName" type="text" class="form__input" id="name" placeholder="Иванов" /> 
+            <span asp-validation-for="LastName" class="form__error"></span>
+        </div>
+        <div class="form__wrapper">
+            <label asp-for="FirstName" class="form__label" for="name">Имя</label>
+            <input asp-for="FirstName" type="text" class="form__input" id="name" placeholder="Иван" />
+            <span asp-validation-for="FirstName" class="form__error"></span>
+        </div>
+        <div class="form__wrapper">
+            <label asp-for="MiddleName" class="form__label" for="name">Отчество</label>
+            <input asp-for="MiddleName" type="text" class="form__input" id="name" placeholder="Иванович" />
+            <span asp-validation-for="MiddleName" class="form__error"></span>
+        </div>
+        <div class="form__wrapper">
+            <label asp-for="Phone" class="form__label" for="name">Номер</label>
+            <input asp-for="Phone" type="number" class="form__input" id="name" placeholder="8(800)555-35-35" />
+            <span asp-validation-for="Phone" class="form__error"></span>
+        </div>
+        <div class="form__wrapper">
+            <label asp-for="Address" class="form__label" for="name">Адрес</label>
+            <input asp-for="Address" type="text" class="form__input" id="name" placeholder="ул. Тверская, д. 1" />
+            <span asp-validation-for="Address" class="form__error"></span>
+        </div>
+        <button type="submit" class="blue__button w-full md:w-4/5">Зарегистрироваться</button>
 
-@*         <p class="text-center">У вас уже есть аккаунт? <a class="blue__link font-semibold" asp-area="" asp-controller="Account" asp-action="Login">Войти</a></p> *@
+        <p class="text-center">У вас уже есть аккаунт? <a class="blue__link font-semibold" asp-area="" asp-controller="Account" asp-action="Login">Войти</a></p>
 
-@*     </form> *@
-@* </div>  *@
-
-@*             @model RegisterViewModel *@
-
-<form asp-action="Register" method="post">
-    <div asp-validation-summary="ModelOnly"></div>
-
-    <div>
-        <label asp-for="Email"></label>
-        <input asp-for="Email" />
-        <span asp-validation-for="Email"></span>
-    </div>
-
-    <div>
-        <label asp-for="Password"></label>
-        <input asp-for="Password" />
-        <span asp-validation-for="Password"></span>
-    </div>
-
-    <div>
-        <label asp-for="ConfirmPassword"></label>
-        <input asp-for="ConfirmPassword" />
-        <span asp-validation-for="ConfirmPassword"></span>
-    </div>
-
-    <div>
-        <label asp-for="FirstName"></label>
-        <input asp-for="FirstName" />
-        <span asp-validation-for="FirstName"></span>
-    </div>
-
-    <div>
-        <label asp-for="LastName"></label>
-        <input asp-for="LastName" />
-        <span asp-validation-for="LastName"></span>
-    </div>
-
-    <div>
-        <label asp-for="MiddleName"></label>
-        <input asp-for="MiddleName" />
-    </div>
-
-    <div>
-        <label asp-for="Phone"></label>
-        <input asp-for="Phone" />
-        <span asp-validation-for="Phone"></span>
-    </div>
-
-    <div>
-        <label asp-for="Address"></label>
-        <input asp-for="Address" />
-        <span asp-validation-for="Address"></span>
-    </div>
-
-    <button type="submit">Регистрация</button>
-</form>
+    </form>
+</div>
