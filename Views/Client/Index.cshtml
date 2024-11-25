@@ -79,7 +79,11 @@
                 <div class="p-4 bg-white gap-2 flex w-full items-center justify-between rounded-2xl shadow-2xl">
                     <h2 class="text-2xl font-semibold">Автомобили</h2>
 
-                    <button class="blue__button-with-icon" title="Добавить">
+                    @* <button class="blue__button-with-icon" title="Добавить" type="button" onclick="document.getElementById('addVehicle').showModal();">
+                        <img src="./images/icons/add.svg" alt="Add" />
+                    </button> *@
+
+                    <button class="blue__button-with-icon" title="Добавить" type="button" onclick="openModal();">
                         <img src="./images/icons/add.svg" alt="Add" />
                     </button>
                 </div>
@@ -207,3 +211,7 @@
         </div>
     </div>
 </footer>
+
+@await Html.PartialAsync("~/Views/Vehicle/_AddVehicleModal.cshtml", new Parking.Models.VehicleViewModel())
+
+ 

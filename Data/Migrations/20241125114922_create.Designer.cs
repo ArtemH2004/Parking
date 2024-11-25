@@ -12,7 +12,7 @@ using Parking.Data;
 namespace Parking.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241124214852_create")]
+    [Migration("20241125114922_create")]
     partial class create
     {
         /// <inheritdoc />
@@ -437,6 +437,9 @@ namespace Parking.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
                     b.Property<string>("LicensePlate")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -449,6 +452,8 @@ namespace Parking.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("VehicleId");
+
+                    b.HasIndex("ClientId");
 
                     b.ToTable("Vehicles");
                 });
@@ -513,10 +518,26 @@ namespace Parking.Data.Migrations
                     b.Navigation("ApplicationUser");
                 });
 
+            modelBuilder.Entity("Parking.Models.Vehicle", b =>
+                {
+                    b.HasOne("Parking.Models.Client", "Client")
+                        .WithMany("Vehicles")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+                });
+
             modelBuilder.Entity("Parking.Models.ApplicationUser", b =>
                 {
                     b.Navigation("Client")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Parking.Models.Client", b =>
+                {
+                    b.Navigation("Vehicles");
                 });
 #pragma warning restore 612, 618
         }
