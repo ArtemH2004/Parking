@@ -9,7 +9,7 @@
 
         <div class="form__wrapper">
             <label asp-for="Email" class="form__label" for="email">Email</label>
-            <input asp-for="Email" class="form__input" id="email" placeholder="parking@lot.com" />
+            <input asp-for="Email" type="email"  class="form__input" id="email" placeholder="parking@lot.com" />
             <span asp-validation-for="Email" class="form__error"></span>
         </div>
         <div class="form__wrapper">
@@ -23,8 +23,8 @@
             <span asp-validation-for="ConfirmPassword" class="form__error"></span>
         </div>
         <div class="form__wrapper">
-            <label asp-for="LastName" class="form__label" for="name">Фамилия</label>
-            <input asp-for="LastName" type="text" class="form__input" id="name" placeholder="Иванов" /> 
+            <label asp-for="LastName" class="form__label" for="surname">Фамилия</label>
+            <input asp-for="LastName" type="text" class="form__input" id="surname" placeholder="Иванов" /> 
             <span asp-validation-for="LastName" class="form__error"></span>
         </div>
         <div class="form__wrapper">
@@ -33,18 +33,18 @@
             <span asp-validation-for="FirstName" class="form__error"></span>
         </div>
         <div class="form__wrapper">
-            <label asp-for="MiddleName" class="form__label" for="name">Отчество</label>
-            <input asp-for="MiddleName" type="text" class="form__input" id="name" placeholder="Иванович" />
+            <label asp-for="MiddleName" class="form__label" for="middleName">Отчество</label>
+            <input asp-for="MiddleName" type="text" class="form__input" id="middleName" placeholder="Иванович" />
             <span asp-validation-for="MiddleName" class="form__error"></span>
         </div>
         <div class="form__wrapper">
-            <label asp-for="Phone" class="form__label" for="name">Номер</label>
-            <input asp-for="Phone" type="number" class="form__input" id="name" placeholder="8(800)555-35-35" />
+            <label asp-for="Phone" class="form__label" for="phone">Номер</label>
+            <input asp-for="Phone" type="number" class="form__input" id="phone" placeholder="8(800)555-35-35" />
             <span asp-validation-for="Phone" class="form__error"></span>
         </div>
         <div class="form__wrapper">
-            <label asp-for="Address" class="form__label" for="name">Адрес</label>
-            <input asp-for="Address" type="text" class="form__input" id="name" placeholder="ул. Тверская, д. 1" />
+            <label asp-for="Address" class="form__label" for="address">Адрес</label>
+            <input asp-for="Address" type="text" class="form__input" id="address" placeholder="ул. Тверская, д. 1" />
             <span asp-validation-for="Address" class="form__error"></span>
         </div>
         <button type="submit" class="blue__button w-full md:w-4/5">Зарегистрироваться</button>

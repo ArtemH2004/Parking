@@ -8,7 +8,7 @@
       <h1 class="text-center text-2xl font-semibold">Войти</h1>
       <div class="form__wrapper">
         <label asp-for="Email" class="form__label" for="email">Email</label>
-        <input asp-for="Email" class="form__input" id="email" placeholder="parking@lot.com" />
+        <input asp-for="Email" type="email" class="form__input" id="email" placeholder="parking@lot.com" />
         <span asp-validation-for="Email" class="form__error"></span>
       </div>
       <div class="form__wrapper">

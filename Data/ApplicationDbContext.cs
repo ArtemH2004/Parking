@@ -46,11 +46,11 @@ namespace Parking.Data
                 .Property(p => p.DailyPricePerDay)
                 .HasColumnType("decimal(18,2)");
 
-            //// Client - Vehicle: One to Many
-            //modelBuilder.Entity<Client>()
-            //    .HasMany(c => c.Vehicles)
-            //    .WithOne(v => v.Client)
-            //    .HasForeignKey(v => v.ClientId);
+            // Client - Vehicle: One to Many
+            modelBuilder.Entity<Client>()
+                .HasMany(c => c.Vehicles)
+                .WithOne(v => v.Client)
+                .HasForeignKey(v => v.ClientId);
 
             //// Client - Contract: One to Many
             //modelBuilder.Entity<Client>()
