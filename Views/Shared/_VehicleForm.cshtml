@@ -1,0 +1,35 @@
+﻿@model Parking.Models.VehicleViewModel
+
+<div class="min-vh-100 container flex items-center justify-center">
+    <form asp-action="@(Model.VehicleId == 0 ? "Create" : "Edit")" method="post" class="...">
+        <h1 class="text-center text-2xl font-semibold">Создание автомобиля</h1>
+
+        <div class="form__wrapper">
+            <label asp-for="LicensePlate" class="form__label" for="licensePlate">Госномер</label>
+            <input asp-for="LicensePlate" type="text" class="form__input" id="licensePlate" placeholder="A123BC 77" />
+            <span asp-validation-for="LicensePlate" class="form__error"></span>
+        </div>
+
+        <div class="form__wrapper">
+            <label asp-for="Year" class="form__label" for="year">Год выпуска</label>
+            <input asp-for="Year" type="number" class="form__input" id="year" placeholder="2022" />
+            <span asp-validation-for="Year" class="form__error"></span>
+        </div>
+
+        <div class="form__wrapper">
+            <label asp-for="Brand" class="form__label" for="brand">Марка</label>
+            <input asp-for="Brand" type="text" class="form__input" id="brand" placeholder="Toyota" />
+            <span asp-validation-for="Brand" class="form__error"></span>
+        </div>
+
+        <div class="form__wrapper">
+            <label asp-for="Model" class="form__label" for="model">Модель</label>
+            <input asp-for="Model" type="text" class="form__input" id="model" placeholder="Camry" />
+            <span asp-validation-for="Model" class="form__error"></span>
+        </div>
+
+        <input type="hidden" asp-for="ClientId" />
+        <button type="submit" class="blue__button w-full md:w-4/5">@(Model.VehicleId == 0 ? "Создать" : "Обновить") автомобиль</button>
+        <p class="text-center"><a class="blue__link font-semibold" asp-area="" asp-controller="Vehicle" asp-action="Index">Назад к автомобилям</a></p>
+    </form>
+</div>

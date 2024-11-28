@@ -1,0 +1,34 @@
+﻿@model IEnumerable<Parking.Models.Vehicle>
+
+<h2>Мои Автомобили</h2>
+
+<p>
+    <a asp-action="Create">Добавить новый автомобиль</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Номерной знак</th>
+            <th>Год</th>
+            <th>Марка</th>
+            <th>Модель</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var vehicle in Model)
+        {
+            <tr>
+                <td>@vehicle.LicensePlate</td>
+                <td>@vehicle.Year</td>
+                <td>@vehicle.Brand</td>
+                <td>@vehicle.Model</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@vehicle.VehicleId">Редактировать</a> |
+                    <a asp-action="Delete" asp-route-id="@vehicle.VehicleId">Удалить</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -12,8 +12,8 @@ using Parking.Data;
 namespace Parking.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241125114922_create")]
-    partial class create
+    [Migration("20241126091449_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
