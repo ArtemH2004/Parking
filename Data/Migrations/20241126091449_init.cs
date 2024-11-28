@@ -5,7 +5,7 @@
 namespace Parking.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class create : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -1,103 +1,103 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Parking.Data;
-using Parking.Models;
-using System.Threading.Tasks;
+﻿    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+    using Parking.Data;
+    using Parking.Models;
+    using System.Threading.Tasks;
 
-public class AccountController : Controller
-{
-    private readonly UserManager<ApplicationUser> _userManager;
-    private readonly SignInManager<ApplicationUser> _signInManager;
-    private readonly ApplicationDbContext _context;
-
-    public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ApplicationDbContext context)
+    public class AccountController : Controller
     {
-        _userManager = userManager;
-        _signInManager = signInManager;
-        _context = context;
-    }
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly ApplicationDbContext _context;
 
-    [HttpGet]
-    public IActionResult Register()
-    {
-        return View();
-    }
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Register(RegisterViewModel model)
-    {
-        if (ModelState.IsValid)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ApplicationDbContext context)
         {
-            var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-            var result = await _userManager.CreateAsync(user, model.Password);
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _context = context;
+        }
 
-            if (result.Succeeded)
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
             {
-                var client = new Client
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var result = await _userManager.CreateAsync(user, model.Password);
+
+                if (result.Succeeded)
                 {
-                    FirstName = model.FirstName,
-                    LastName = model.LastName,
-                    MiddleName = model.MiddleName,
-                    Phone = model.Phone,
-                    Address = model.Address,
-                    Email = model.Email,
-                    ApplicationUserId = user.Id
-                };
+                    var client = new Client
+                    {
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        MiddleName = model.MiddleName,
+                        Phone = model.Phone,
+                        Address = model.Address,
+                        Email = model.Email,
+                        ApplicationUserId = user.Id
+                    };
 
-                _context.Clients.Add(client);
-                await _context.SaveChangesAsync();
+                    _context.Clients.Add(client);
+                    await _context.SaveChangesAsync();
 
-                await _signInManager.SignInAsync(user, isPersistent: false);
-                return RedirectToAction("Index", "Client");
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    return RedirectToAction("Index", "Client");
+                }
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
             }
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError(string.Empty, error.Description);
-            }
+            return View(model);
         }
-        return View(model);
-    }
 
-    [HttpGet]
-    public IActionResult Login(string returnUrl = null)
-    {
-        ViewData["ReturnUrl"] = returnUrl;
-        return View();
-    }
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
-    {
-        if (ModelState.IsValid)
+        [HttpGet]
+        public IActionResult Login(string returnUrl = null)
         {
-            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
-            if (result.Succeeded)
-            {
-                return RedirectToLocal(returnUrl);
-            }
-            ModelState.AddModelError(string.Empty, "Неверная попытка входа.");
+            ViewData["ReturnUrl"] = returnUrl;
+            return View();
         }
-        return View(model);
-    }
 
-    private IActionResult RedirectToLocal(string returnUrl)
-    {
-        if (Url.IsLocalUrl(returnUrl))
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
         {
-            return Redirect(returnUrl);
+            if (ModelState.IsValid)
+            {
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+                if (result.Succeeded)
+                {
+                    return RedirectToLocal(returnUrl);
+                }
+                ModelState.AddModelError(string.Empty, "Неверная попытка входа.");
+            }
+            return View(model);
         }
-        return RedirectToAction("Index", "Client");
+
+        private IActionResult RedirectToLocal(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            return RedirectToAction("Index", "Client");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
+
+
     }
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Logout()
-    {
-        await _signInManager.SignOutAsync();
-        return RedirectToAction("Index", "Home");
-    }
-
-
-}

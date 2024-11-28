@@ -1,6 +1,6 @@
-﻿@* @model Parking.Models.VehicleViewModel
+﻿@model Parking.Models.VehicleViewModel
 
-<dialog id="addVehicle" class="dialog__modal">
+<dialog id="addVehicleModal" class="dialog__modal">
     <form id="vehicleForm" method="post" asp-action="Create" asp-controller="Vehicle" class="w-fll gap-4 flex h-full flex-col">
         <div class="gap-2 flex items-center justify-between">
             <div class=""></div>
@@ -13,7 +13,7 @@
         <div class="gap-2 grid grid-cols-2 items-center">
             <img src="./images/icons/default-car.svg" alt="" class="mx-auto aspect-square w-3/4 rounded-xl object-cover" />
             <div class="gap-2 flex w-full flex-col items-start">
-                <input asp-for="ClientId" type="hidden" name="ClientId" value="@Model.ClientId">
+                <input asp-for="ClientId" type="hidden" name="ClientId" value="@Model.ClientId" />
                 <div class="form__wrapper-gap-0">
                     <label asp-for="Brand" class="form__label" for="brand">Бренд</label>
                     <input asp-for="Brand" name="Brand" type="text" class="form__input" id="brand" placeholder="Porsche" required />
@@ -40,46 +40,69 @@
         <button type="submit" class="blue__button mx-auto w-full md:w-1/2">Добавить</button>
     </form>
 </dialog>
-
 <script>
-  function closeDialog() {
-    const dialog = document.getElementById('addVehicle');
-    dialog.close();
-  }
-
-  document.getElementById('vehicleForm').onsubmit = async function(event) {
-    event.preventDefault();
-
-        const formData = new FormData(this);
+        document.getElementById('vehicleForm').onsubmit = async function(event) {
+        event.preventDefault(); // предотвратить стандартное поведение формы
+            const formData = new FormData(this);
     for (const [key, value] of formData.entries()) {
-        console.log(`${key}: ${value}`);
+        console.log(`${key}: ${value}`); // Логируем данные формы
     }
+        const response = await fetch(this.action, {
+            method: 'POST',
+            body: formData
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            alert('Автомобиль успешно добавлен!');
+            // можно закрыть модальное окно или обновить список автомобилей
+        } else {
+            alert('Ошибка: ' + result.errors.join(', '));
+        }
+    };
+
+</script>
+
+@* <script> *@
+@*   function closeDialog() { *@
+@*     const dialog = document.getElementById('addVehicleModal'); *@
+@*     dialog.close(); *@
+@*   } *@
+
+@*   document.getElementById('addVehicleModal').onsubmit = async function(event) { *@
+@*     event.preventDefault(); *@
+
+@*         const formData = new FormData(this); *@
+@*     for (const [key, value] of formData.entries()) { *@
+@*         console.log(`${key}: ${value}`); *@
+@*     } *@
 
     
-    const response = await fetch(this.action, {
-      method: 'POST',
-      body: formData
-    });
+@*     const response = await fetch(this.action, { *@
+@*       method: 'POST', *@
+@*       body: formData *@
+@*     }); *@
 
-        if (response.ok) {
-        const jsonResponse = await response.json();
-        if (jsonResponse.success) {
-            alert('Автомобиль добавлен успешно!');
-            closeDialog();
-        } else {
-            alert(jsonResponse.error);
-        }
-    } else {
-        alert('Произошла ошибка при добавлении автомобиля.');
-    }
+@*         if (response.ok) { *@
+@*         const jsonResponse = await response.json(); *@
+@*         if (jsonResponse.success) { *@
+@*             alert('Автомобиль добавлен успешно!'); *@
+@*             closeDialog(); *@
+@*         } else { *@
+@*             alert(jsonResponse.error); *@
+@*         } *@
+@*     } else { *@
+@*         alert('Произошла ошибка при добавлении автомобиля.'); *@
+@*     } *@
 
-  }
-</script> *@
-
-
+@*   } *@
+@* </script> *@
 
 
-@model Parking.Models.VehicleViewModel
+
+
+@* @model Parking.Models.VehicleViewModel
 
 <div class="modal" tabindex="-1" role="dialog" id="addVehicle" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -178,3 +201,4 @@
         });
     });
 </script>
+ *@

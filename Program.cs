@@ -23,6 +23,7 @@ namespace Parking
 
 
 
+
             builder.Services.ConfigureApplicationCookie(options =>
             {
                 options.LoginPath = "/Account/Login";
@@ -56,6 +57,7 @@ namespace Parking
             app.UseAuthentication();
             app.UseAuthorization();
 
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
@@ -65,6 +67,10 @@ namespace Parking
                 endpoints.MapControllerRoute(
                     name: "clientProfile",
                     pattern: "{controller=Client}/{action=Profile}/{userId?}");
+
+                endpoints.MapControllerRoute(
+                    name: "vehicle",
+                    pattern: "{controller=Vehicle}/{action=Index}/{id?}");
             });
 
             app.Run();
