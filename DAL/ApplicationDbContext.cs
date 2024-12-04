@@ -1,21 +1,20 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
 using Parking.Models;
 
 namespace Parking.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public DbSet<Client> Clients { get; set; }
-        public DbSet<Contract> Contracts { get; set; }
-        public DbSet<Driver> Drivers { get; set; }
-        public DbSet<Guard> Guards { get; set; }
-        public DbSet<ParkingLot> ParkingLots { get; set; }
-        public DbSet<ParkingSpace> ParkingSpaces { get; set; }
-        public DbSet<ParkingType> ParkingTypes { get; set; }
-        public DbSet<Vehicle> Vehicles { get; set; }
+        public DbSet<Client> Clients { get; set; } = null!;
+        public DbSet<Contract> Contracts { get; set; } = null!;
+        public DbSet<Driver> Drivers { get; set; } = null!;
+        public DbSet<Guard> Guards { get; set; } = null!;
+        public DbSet<ParkingLot> ParkingLots { get; set; } = null!;
+        public DbSet<ParkingSpace> ParkingSpaces { get; set; } = null!;
+        public DbSet<ParkingType> ParkingTypes { get; set; } = null!;
+        public DbSet<Vehicle> Vehicles { get; set; } = null!;
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
     : base(options)
@@ -25,14 +24,11 @@ namespace Parking.Data
         {
             base.OnModelCreating(modelBuilder);
 
-
-            // Убедитесь, что вы не изменяете настройки для IdentityUserLogin.
-            // Если делаете, то вот пример явного определения ключей:
             modelBuilder.Entity<IdentityUserLogin<string>>().HasKey(l => new { l.LoginProvider, l.ProviderKey });
 
             modelBuilder.Entity<Contract>()
                 .Property(c => c.Amount)
-                .HasColumnType("decimal(18,2)"); // Задайте подходящее значение для precision и scale
+                .HasColumnType("decimal(18,2)"); 
 
             modelBuilder.Entity<Driver>()
                 .Property(d => d.Salary)
