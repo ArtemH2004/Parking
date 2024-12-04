@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Parking.Models
+﻿namespace Parking.Models
 {
     public class Vehicle
     {
@@ -10,7 +8,7 @@ namespace Parking.Models
         public string Brand { get; set; }
         public string Model { get; set; }
         public int ClientId { get; set; }
-        public virtual Client Client { get; set; }
-        //public virtual Contract Contract { get; set; }
+        public Client Client { get; set; }
+        //public Contract Contract { get; set; }
     }
 }

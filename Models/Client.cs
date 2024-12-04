@@ -12,11 +12,11 @@ namespace Parking.Models
         public string Address { get; set; }
 
         public string Email { get; set; }
-        public virtual ICollection<Vehicle> Vehicles { get; set; } = new List<Vehicle>();
-        //public virtual ICollection<Contract> Contracts { get; set; } = new List<Contract>();
+        public ICollection<Vehicle> Vehicles { get; set; } = new List<Vehicle>();
+        //public ICollection<Contract> Contracts { get; set; } = new List<Contract>();
 
         public string? ApplicationUserId { get; set; }
-        public virtual ApplicationUser ApplicationUser { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
 
     }
 }

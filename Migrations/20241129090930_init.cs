@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace Parking.Data.Migrations
+namespace Parking.Migrations
 {
     /// <inheritdoc />
     public partial class init : Migration
