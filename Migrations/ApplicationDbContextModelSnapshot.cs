@@ -287,9 +287,6 @@ namespace Parking.Migrations
                     b.Property<int>("ParkingLotId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ParkingSpaceId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
@@ -300,9 +297,6 @@ namespace Parking.Migrations
                     b.HasIndex("DriverId");
 
                     b.HasIndex("ParkingLotId");
-
-                    b.HasIndex("ParkingSpaceId")
-                        .IsUnique();
 
                     b.ToTable("Contracts");
                 });
@@ -408,66 +402,12 @@ namespace Parking.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ParkingTypeId")
-                        .HasColumnType("int");
-
                     b.Property<int>("QuantitySpace")
                         .HasColumnType("int");
 
                     b.HasKey("ParkingLotId");
 
-                    b.HasIndex("ParkingTypeId")
-                        .IsUnique();
-
                     b.ToTable("ParkingLots");
-                });
-
-            modelBuilder.Entity("Parking.Models.ParkingSpace", b =>
-                {
-                    b.Property<int>("ParkingSpaceId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ParkingSpaceId"));
-
-                    b.Property<decimal>("DailyPricePerDay")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<bool>("IsOccupied")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("ParkingLotId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SpaceNumber")
-                        .HasColumnType("int");
-
-                    b.HasKey("ParkingSpaceId");
-
-                    b.HasIndex("ParkingLotId");
-
-                    b.ToTable("ParkingSpaces");
-                });
-
-            modelBuilder.Entity("Parking.Models.ParkingType", b =>
-                {
-                    b.Property<int>("ParkingTypeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ParkingTypeId"));
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TypeName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ParkingTypeId");
-
-                    b.ToTable("ParkingTypes");
                 });
 
             modelBuilder.Entity("Parking.Models.Vehicle", b =>
@@ -572,7 +512,7 @@ namespace Parking.Migrations
                         .IsRequired();
 
                     b.HasOne("Parking.Models.Driver", "Driver")
-                        .WithMany("Contracts")
+                        .WithMany()
                         .HasForeignKey("DriverId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -583,19 +523,11 @@ namespace Parking.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Parking.Models.ParkingSpace", "ParkingSpace")
-                        .WithOne("Contract")
-                        .HasForeignKey("Parking.Models.Contract", "ParkingSpaceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Client");
 
                     b.Navigation("Driver");
 
                     b.Navigation("ParkingLot");
-
-                    b.Navigation("ParkingSpace");
                 });
 
             modelBuilder.Entity("Parking.Models.Driver", b =>
@@ -613,28 +545,6 @@ namespace Parking.Migrations
                 {
                     b.HasOne("Parking.Models.ParkingLot", "ParkingLot")
                         .WithMany("Guards")
-                        .HasForeignKey("ParkingLotId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ParkingLot");
-                });
-
-            modelBuilder.Entity("Parking.Models.ParkingLot", b =>
-                {
-                    b.HasOne("Parking.Models.ParkingType", "ParkingType")
-                        .WithOne("ParkingLot")
-                        .HasForeignKey("Parking.Models.ParkingLot", "ParkingTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ParkingType");
-                });
-
-            modelBuilder.Entity("Parking.Models.ParkingSpace", b =>
-                {
-                    b.HasOne("Parking.Models.ParkingLot", "ParkingLot")
-                        .WithMany("ParkingSpaces")
                         .HasForeignKey("ParkingLotId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -666,11 +576,6 @@ namespace Parking.Migrations
                     b.Navigation("Vehicles");
                 });
 
-            modelBuilder.Entity("Parking.Models.Driver", b =>
-                {
-                    b.Navigation("Contracts");
-                });
-
             modelBuilder.Entity("Parking.Models.ParkingLot", b =>
                 {
                     b.Navigation("Contracts");
@@ -678,20 +583,6 @@ namespace Parking.Migrations
                     b.Navigation("Drivers");
 
                     b.Navigation("Guards");
-
-                    b.Navigation("ParkingSpaces");
-                });
-
-            modelBuilder.Entity("Parking.Models.ParkingSpace", b =>
-                {
-                    b.Navigation("Contract")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Parking.Models.ParkingType", b =>
-                {
-                    b.Navigation("ParkingLot")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

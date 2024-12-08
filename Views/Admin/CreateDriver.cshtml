@@ -1,0 +1,62 @@
+﻿@* @model DriverViewModel
+
+<div class="min-vh-100 container flex items-center justify-center">
+    <form asp-action="CreateDriver" method="post" class="my-12 px-10 py-10 bg-white gap-6 mx-6 flex w-full flex-col items-center rounded-3xl shadow-2xl sm:px-16 sm:mx-0 sm:w-4/5 lg:w-1/2">
+        @Html.AntiForgeryToken()
+        <h1 class="text-center text-2xl font-semibold">Создание автомобиля</h1>
+
+        <div class="form__wrapper">
+            <label asp-for="LastName" class="form__label" for="lastName">Фамилия</label>
+            <input asp-for="LastName" type="text" class="form__input" id="lastName" placeholder="Иванов" />
+            <span asp-validation-for="LastName" class="form__error"></span>
+        </div>
+
+        <div class="form__wrapper">
+            <label asp-for="FirstName" class="form__label" for="firstName">Имя</label>
+            <input asp-for="FirstName" type="text" class="form__input" id="firstName" placeholder="Иван" />
+            <span asp-validation-for="FirstName" class="form__error"></span>
+        </div>
+
+        <div class="form__wrapper">
+            <label asp-for="MiddleName" class="form__label" for="middleName">Отчество</label>
+            <input asp-for="MiddleName" type="text" class="form__input" id="middleName" placeholder="Иванович" />
+            <span asp-validation-for="MiddleName" class="form__error"></span>
+        </div>
+
+        <div class="form__wrapper">
+            <label asp-for="Phone" class="form__label" for="phone">Номер</label>
+            <input asp-for="Phone" type="tel" class="form__input" id="phone" placeholder="8(800)555-35-35" />
+            <span asp-validation-for="Phone" class="form__error"></span>
+        </div>
+
+        <div class="form__wrapper">
+            <label asp-for="ExperienceYears" class="form__label" for="experienceYears">Стаж (лет)</label>
+            <input asp-for="ExperienceYears" type="number" class="form__input" id="experienceYears" placeholder="8" />
+            <span asp-validation-for="ExperienceYears" class="form__error"></span>
+        </div>
+
+        <div class="form__wrapper">
+            <label asp-for="Salary" class="form__label" for="salary">Зарплата</label>
+            <input asp-for="Salary" type="number" class="form__input" id="salary" placeholder="50 000" />
+            <span asp-validation-for="Salary" class="form__error"></span>
+        </div>
+
+        <div class="form__wrapper">
+            <label asp-for="OpenCategory" class="form__label" for="openCategory">Категория</label>
+            <input asp-for="OpenCategory" type="text" class="form__input" id="openCategory" placeholder="В" />
+            <span asp-validation-for="OpenCategory" class="form__error"></span>
+        </div>
+
+        <div class="form__wrapper">
+            <label asp-for="ParkingLotId" class="form__label" for="parkingLotId">ID Парковки</label>
+            <input asp-for="ParkingLotId" type="number" class="form__input" id="parkingLotId" placeholder="1" />
+            <span asp-validation-for="ParkingLotId" class="form__error"></span>
+        </div>
+
+        <input type="hidden" asp-for="DriverId" />
+
+        <button type="submit" class="blue__button w-full md:w-4/5">Создать автомобиль</button>
+
+        <p class="text-center"><a class="blue__link font-semibold" asp-area="" asp-controller="Admin" asp-action="Vehicles">Назад к автомобилям</a></p>
+    </form>
+</div> *@

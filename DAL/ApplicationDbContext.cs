@@ -9,10 +9,10 @@ namespace Parking.Data
     {
         public DbSet<Client> Clients { get; set; } = null!;
         public DbSet<Contract> Contracts { get; set; } = null!;
-        public DbSet<Driver> Drivers { get; set; } = null!;
         public DbSet<Guard> Guards { get; set; } = null!;
         public DbSet<ParkingLot> ParkingLots { get; set; } = null!;
         public DbSet<Vehicle> Vehicles { get; set; } = null!;
+        public DbSet<Driver> Drivers { get; set; } = null!;
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
     : base(options)
@@ -56,10 +56,10 @@ namespace Parking.Data
             //    .HasForeignKey(con => con.DriverId);
 
             //// ParkingLot - Driver: One to Many
-            //modelBuilder.Entity<ParkingLot>()
-            //    .HasMany(pl => pl.Drivers)
-            //    .WithOne(d => d.ParkingLot)
-            //    .HasForeignKey(d => d.ParkingLotId);
+            modelBuilder.Entity<ParkingLot>()
+                .HasMany(pl => pl.Drivers)
+                .WithOne(d => d.ParkingLot)
+                .HasForeignKey(d => d.ParkingLotId);
 
             //// ParkingLot - Guard: One to Many
             //modelBuilder.Entity<ParkingLot>()

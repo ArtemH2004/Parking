@@ -9,7 +9,7 @@ namespace Parking.Models
         public string Address { get; set; }
         public int QuantitySpace { get; set; }
         public ICollection<Contract>? Contracts { get; set; } = new List<Contract>();
-        public ICollection<Driver>? Drivers { get; set; } = new List<Driver>();
+        public ICollection<Driver> Drivers { get; set; } = new List<Driver>();
         public ICollection<Guard>? Guards { get; set; } = new List<Guard>();
     }
 }
