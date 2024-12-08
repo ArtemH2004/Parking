@@ -418,3 +418,12 @@ h1, h2, h3, h4, h5, h6 {
     }
 }
 }
+
+
+.table {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 2rem;
+    background-color: white;
+}

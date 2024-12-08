@@ -8,8 +8,8 @@ namespace Parking.Models
         public int SpaceNumber { get; set; }
         public decimal DailyPricePerDay { get; set; }
         public bool IsOccupied { get; set; }
-        //public int ParkingLotId { get; set; }
-        //public virtual ParkingLot ParkingLot { get; set; }
-        //public virtual Contract Contract { get; set; }
+        public int ParkingLotId { get; set; }
+        public ParkingLot ParkingLot { get; set; }
+        public Contract Contract { get; set; }
     }
 }

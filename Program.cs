@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Parking.DAL;
 using Parking.Data;
 using Parking.Models;
 using Parking.Services;
@@ -12,6 +13,7 @@ namespace Parking
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddScoped<ClientDbStorage>();
             builder.Services.AddScoped<VehicleDbStorage>();
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>

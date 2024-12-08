@@ -9,7 +9,7 @@
         public string Phone { get; set; }
         public string Address { get; set; }
         public decimal Salary { get; set; }
-        //public int ParkingLotId { get; set; }
-        //public virtual ParkingLot ParkingLot { get; set; }
+        public int ParkingLotId { get; set; }
+        public ParkingLot ParkingLot { get; set; }
     }
 }
