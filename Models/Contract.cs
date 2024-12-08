@@ -10,8 +10,6 @@ namespace Parking.Models
         public decimal Amount { get; set; }
         public int ParkingLotId { get; set; }
         public ParkingLot ParkingLot { get; set; }
-        public int ParkingSpaceId { get; set; }
-        public virtual ParkingSpace ParkingSpace { get; set; }
         public int ClientId { get; set; }
         public Client Client { get; set; }
         //public int VehicleId { get; set; }

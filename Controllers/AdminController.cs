@@ -10,13 +10,15 @@ namespace Parking.Controllers
     public class AdminController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly ParkingLotDbStorage _parkingLotDbStorage;
         private readonly VehicleDbStorage _vehicleDbStorage;
         private readonly ClientDbStorage _clientDbStorage;
 
 
-        public AdminController(ApplicationDbContext context, VehicleDbStorage vehicleDbStorage, ClientDbStorage clientDbStorage)
+        public AdminController(ApplicationDbContext context, VehicleDbStorage vehicleDbStorage, ClientDbStorage clientDbStorage, ParkingLotDbStorage parkingLotDbStorage)
         {
             _context = context;
+            _parkingLotDbStorage = parkingLotDbStorage;
             _vehicleDbStorage = vehicleDbStorage;
             _clientDbStorage = clientDbStorage;
         }
@@ -25,14 +27,94 @@ namespace Parking.Controllers
         
         [Authorize(Roles = "Admin")]
 
-        // Parkings
+        // ParkingLots
         public async Task<IActionResult> Index()
         {
-            var vehicles = await _vehicleDbStorage.GetAllVehicles();
-            return View(vehicles);
+            var parkingLots = await _parkingLotDbStorage.GetAllParkingLots();
+            return View(parkingLots);
         }
 
-        
+        public IActionResult CreateParkingLot()
+        {
+            var model = new ParkingLotViewModel();
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateParkingLot(ParkingLotViewModel models)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(models);
+            }
+
+            var parkingLot = new ParkingLot
+            {
+                Name = models.Name,
+                Address = models.Address,
+                QuantitySpace = models.QuantitySpace
+            };
+
+            await _parkingLotDbStorage.AddParkingLot(parkingLot);
+            return RedirectToAction(nameof(Index));
+        }
+
+        //public async Task<IActionResult> EditVehicle(int id)
+        //{
+        //    var vehicle = await _vehicleDbStorage.GetVehicleById(id);
+        //    if (vehicle == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var model = new VehicleViewModel
+        //    {
+        //        VehicleId = vehicle.VehicleId,
+        //        LicensePlate = vehicle.LicensePlate,
+        //        Year = vehicle.Year,
+        //        Brand = vehicle.Brand,
+        //        Model = vehicle.Model,
+        //        ClientId = vehicle.ClientId
+        //    };
+
+        //    return View(model);
+        //}
+
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> EditVehicle(VehicleViewModel models)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View(models);
+        //    }
+
+        //    var vehicle = new Vehicle
+        //    {
+        //        VehicleId = models.VehicleId,
+        //        LicensePlate = models.LicensePlate,
+        //        Year = models.Year,
+        //        Brand = models.Brand,
+        //        Model = models.Model,
+        //        ClientId = models.ClientId
+        //    };
+
+        //    await _vehicleDbStorage.UpdateVehicle(vehicle);
+        //    return RedirectToAction(nameof(Vehicles));
+        //}
+
+
+        [HttpPost, ActionName("DeleteParkingLot")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteParkingLotConfirmed(int id)
+        {
+            await _parkingLotDbStorage.DeleteParkingLot(id);
+            return RedirectToAction(nameof(Index));
+        }
+
+
         // Clients
         public async Task<IActionResult> Clients()
         {

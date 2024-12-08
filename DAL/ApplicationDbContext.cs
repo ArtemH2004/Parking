@@ -12,8 +12,6 @@ namespace Parking.Data
         public DbSet<Driver> Drivers { get; set; } = null!;
         public DbSet<Guard> Guards { get; set; } = null!;
         public DbSet<ParkingLot> ParkingLots { get; set; } = null!;
-        public DbSet<ParkingSpace> ParkingSpaces { get; set; } = null!;
-        public DbSet<ParkingType> ParkingTypes { get; set; } = null!;
         public DbSet<Vehicle> Vehicles { get; set; } = null!;
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
@@ -38,9 +36,6 @@ namespace Parking.Data
                 .Property(g => g.Salary)
                 .HasColumnType("decimal(18,2)");
 
-            modelBuilder.Entity<ParkingSpace>()
-                .Property(p => p.DailyPricePerDay)
-                .HasColumnType("decimal(18,2)");
 
             // Client - Vehicle: One to Many
             modelBuilder.Entity<Client>()

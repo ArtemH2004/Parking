@@ -1,0 +1,33 @@
+﻿@model ParkingLotViewModel
+
+<div class="min-vh-100 container flex items-center justify-center">
+    <form asp-action="CreateParkingLot" method="post" class="my-12 px-10 py-10 bg-white gap-6 mx-6 flex w-full flex-col items-center rounded-3xl shadow-2xl sm:px-16 sm:mx-0 sm:w-4/5 lg:w-1/2">
+        @Html.AntiForgeryToken()
+        <h1 class="text-center text-2xl font-semibold">Создание парковки</h1>
+
+
+        <div class="form__wrapper">
+            <label asp-for="Name" class="form__label" for="name">Название</label>
+            <input asp-for="Name" type="text" class="form__input" id="name" placeholder="Стоянка 1" />
+            <span asp-validation-for="Name" class="form__error"></span>
+        </div>
+
+        <div class="form__wrapper">
+            <label asp-for="Address" class="form__label" for="address">Адрес</label>
+            <input asp-for="Address" type="text" class="form__input" id="address" placeholder="ул. Тверская, д. 1" />
+            <span asp-validation-for="Address" class="form__error"></span>
+        </div>
+
+        <div class="form__wrapper">
+            <label asp-for="QuantitySpace" class="form__label" for="space">Кол-во мест</label>
+            <input asp-for="QuantitySpace" type="number" class="form__input" id="space" placeholder="52" />
+            <span asp-validation-for="QuantitySpace" class="form__error"></span>
+        </div>
+
+        <input type="hidden" asp-for="ParkingLotId" />
+
+        <button type="submit" class="blue__button w-full md:w-4/5">Создать парковку</button>
+
+        <p class="text-center"><a class="blue__link font-semibold" asp-area="" asp-controller="Admin" asp-action="Index">Назад к парковкам</a></p>
+    </form>
+</div>
