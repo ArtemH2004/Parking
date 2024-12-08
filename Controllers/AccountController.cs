@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Parking.Data;
 using Parking.Models;
 using Parking.DAL;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 public class AccountController : Controller
 {
@@ -76,20 +74,17 @@ public class AccountController : Controller
             var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
             if (result.Succeeded)
             {
-                return RedirectToLocal(returnUrl);
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if (await _userManager.IsInRoleAsync(user, "Admin"))
+
+                {
+                    return RedirectToAction("Index", "Admin"); 
+                }
+                return RedirectToAction("Index", "Client"); 
             }
             ModelState.AddModelError(string.Empty, "Неверная попытка входа.");
         }
         return View(model);
-    }
-
-    private IActionResult RedirectToLocal(string returnUrl)
-    {
-        if (Url.IsLocalUrl(returnUrl))
-        {
-            return Redirect(returnUrl);
-        }
-        return RedirectToAction("Index", "Client");
     }
 
     [HttpPost]

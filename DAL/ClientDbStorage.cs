@@ -1,10 +1,11 @@
-﻿using Parking.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using Parking.Data;
 using Parking.Models;
 
 
 namespace Parking.DAL
 {
-    internal class ClientDbStorage
+    public class ClientDbStorage
     {
         private readonly ApplicationDbContext _context;
         public ClientDbStorage(ApplicationDbContext context)
@@ -16,6 +17,11 @@ namespace Parking.DAL
         {
             _context.Clients.Add(client);
             _context.SaveChanges();
+        }
+
+        public async Task<List<Client>> GetAllUsers()
+        {
+            return await _context.Clients.ToListAsync();
         }
 
         public Client? GetByUserId(string userId)

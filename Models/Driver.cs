@@ -10,8 +10,8 @@
         public int ExperienceYears { get; set; }
         public decimal Salary { get; set; }
         public char OpenCategory { get; set; }
-        //public int ParkingLotId { get; set; }
-        //public virtual ParkingLot ParkingLot { get; set; }
-        //public virtual ICollection<Contract> Contracts { get; set; } = new List<Contract>();
+        public int ParkingLotId { get; set; }
+        public ParkingLot ParkingLot { get; set; }
+        public ICollection<Contract> Contracts { get; set; } = new List<Contract>();
     }
 }

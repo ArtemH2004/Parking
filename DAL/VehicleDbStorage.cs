@@ -29,11 +29,27 @@ namespace Parking.Services
             await _context.SaveChangesAsync();
         }
 
+        //public async Task UpdateVehicle(Vehicle vehicle)
+        //{
+        //    _context.Vehicles.Update(vehicle);
+        //    await _context.SaveChangesAsync();
+        //}
+
         public async Task UpdateVehicle(Vehicle vehicle)
         {
-            _context.Vehicles.Update(vehicle);
-            await _context.SaveChangesAsync();
+            var existingVehicle = await _context.Vehicles.FindAsync(vehicle.VehicleId);
+            if (existingVehicle != null)
+            {
+                existingVehicle.LicensePlate = vehicle.LicensePlate;
+                existingVehicle.Year = vehicle.Year;
+                existingVehicle.Brand = vehicle.Brand;
+                existingVehicle.Model = vehicle.Model;
+                existingVehicle.ClientId = vehicle.ClientId;
+
+                await _context.SaveChangesAsync();
+            }
         }
+
 
         public async Task DeleteVehicle(int id)
         {
