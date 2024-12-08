@@ -19,6 +19,16 @@ namespace Parking.DAL
             _context.SaveChanges();
         }
 
+        public async Task DeleteClient(int id)
+        {
+            var client = await _context.Clients.FindAsync(id);
+            if (client != null)
+            {
+                _context.Clients.Remove(client);
+                await _context.SaveChangesAsync();
+            }
+        }
+
         public async Task<List<Client>> GetAllUsers()
         {
             return await _context.Clients.ToListAsync();

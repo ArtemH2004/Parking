@@ -40,6 +40,14 @@ namespace Parking.Controllers
             return View(vehicles);
         }
 
+        [HttpPost, ActionName("DeleteClient")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteClientConfirmed(int id)
+        {
+            await _clientDbStorage.DeleteClient(id);
+            return RedirectToAction(nameof(Clients));
+        }
+
 
         // Vehicles
         public async Task<IActionResult> Vehicles()
