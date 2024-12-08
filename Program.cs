@@ -15,6 +15,7 @@ namespace Parking
 
             builder.Services.AddScoped<ClientDbStorage>();
             builder.Services.AddScoped<VehicleDbStorage>();
+            builder.Services.AddScoped<ParkingLotDbStorage>();
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
