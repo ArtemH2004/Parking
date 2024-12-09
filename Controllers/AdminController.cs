@@ -223,96 +223,96 @@ namespace Parking.Controllers
         }
 
         // Drivers
-        //public async Task<IActionResult> Drivers()
-        //{
-        //    var drivers = await _driverDbStorage.GetAllDrivers();
-        //    return View(drivers);
-        //}
+        public async Task<IActionResult> Drivers()
+        {
+            var drivers = await _driverDbStorage.GetAllDrivers();
+            return View(drivers);
+        }
 
-        //public IActionResult CreateDriver()
+        public IActionResult CreateDriver()
+        {
+            var model = new DriverViewModel();
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateDriver(DriverViewModel models)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(models);
+            }
+
+            var driver = new Driver
+            {
+                LastName = models.LastName,
+                FirstName = models.FirstName,
+                MiddleName = models.MiddleName,
+                Phone = models.Phone,
+                ExperienceYears = models.ExperienceYears,
+                Salary = models.Salary,
+                OpenCategory = models.OpenCategory,
+                ParkingLotId = models.ParkingLotId
+            };
+
+            await _driverDbStorage.AddDriver(driver);
+            return RedirectToAction(nameof(Drivers));
+        }
+
+        //public async Task<IActionResult> EditVehicle(int id)
         //{
-        //    var model = new DriverViewModel();
+        //    var vehicle = await _vehicleDbStorage.GetVehicleById(id);
+        //    if (vehicle == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var model = new VehicleViewModel
+        //    {
+        //        VehicleId = vehicle.VehicleId,
+        //        LicensePlate = vehicle.LicensePlate,
+        //        Year = vehicle.Year,
+        //        Brand = vehicle.Brand,
+        //        Model = vehicle.Model,
+        //        ClientId = vehicle.ClientId
+        //    };
+
         //    return View(model);
         //}
 
+
         //[HttpPost]
         //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> CreateDriver(DriverViewModel models)
+        //public async Task<IActionResult> EditVehicle(VehicleViewModel models)
         //{
         //    if (!ModelState.IsValid)
         //    {
         //        return View(models);
         //    }
 
-        //    var driver = new Driver
+        //    var vehicle = new Vehicle
         //    {
-        //        LastName = models.LastName,
-        //        FirstName = models.FirstName,
-        //        MiddleName = models.MiddleName,
-        //        Phone = models.Phone,
-        //        ExperienceYears = models.ExperienceYears,
-        //        Salary = models.Salary,
-        //        OpenCategory = models.OpenCategory,
-        //        ParkingLotId = models.ParkingLotId
+        //        VehicleId = models.VehicleId,
+        //        LicensePlate = models.LicensePlate,
+        //        Year = models.Year,
+        //        Brand = models.Brand,
+        //        Model = models.Model,
+        //        ClientId = models.ClientId
         //    };
 
-        //    await _driverDbStorage.AddDriver(driver);
-        //    return RedirectToAction(nameof(Drivers));
+        //    await _vehicleDbStorage.UpdateVehicle(vehicle);
+        //    return RedirectToAction(nameof(Vehicles));
         //}
 
-        ////public async Task<IActionResult> EditVehicle(int id)
-        ////{
-        ////    var vehicle = await _vehicleDbStorage.GetVehicleById(id);
-        ////    if (vehicle == null)
-        ////    {
-        ////        return NotFound();
-        ////    }
 
-        ////    var model = new VehicleViewModel
-        ////    {
-        ////        VehicleId = vehicle.VehicleId,
-        ////        LicensePlate = vehicle.LicensePlate,
-        ////        Year = vehicle.Year,
-        ////        Brand = vehicle.Brand,
-        ////        Model = vehicle.Model,
-        ////        ClientId = vehicle.ClientId
-        ////    };
-
-        ////    return View(model);
-        ////}
-
-
-        ////[HttpPost]
-        ////[ValidateAntiForgeryToken]
-        ////public async Task<IActionResult> EditVehicle(VehicleViewModel models)
-        ////{
-        ////    if (!ModelState.IsValid)
-        ////    {
-        ////        return View(models);
-        ////    }
-
-        ////    var vehicle = new Vehicle
-        ////    {
-        ////        VehicleId = models.VehicleId,
-        ////        LicensePlate = models.LicensePlate,
-        ////        Year = models.Year,
-        ////        Brand = models.Brand,
-        ////        Model = models.Model,
-        ////        ClientId = models.ClientId
-        ////    };
-
-        ////    await _vehicleDbStorage.UpdateVehicle(vehicle);
-        ////    return RedirectToAction(nameof(Vehicles));
-        ////}
-
-
-        //[HttpPost, ActionName("DeleteDriver")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteDriverConfirmed(int id)
-        //{
-        //    await _driverDbStorage.DeleteDriver(id);
-        //    return RedirectToAction(nameof(Drivers));
-        //}
+        [HttpPost, ActionName("DeleteDriver")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteDriverConfirmed(int id)
+        {
+            await _driverDbStorage.DeleteDriver(id);
+            return RedirectToAction(nameof(Drivers));
+        }
 
     }
 }

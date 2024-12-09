@@ -11,5 +11,6 @@
         public decimal Salary { get; set; }
         public int ParkingLotId { get; set; }
         public ParkingLot ParkingLot { get; set; }
+        public ICollection<Contract> Contracts { get; set; } = new List<Contract>();
     }
 }

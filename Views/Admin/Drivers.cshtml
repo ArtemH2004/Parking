@@ -1,4 +1,4 @@
-﻿@* @model IEnumerable<Parking.Models.Driver>
+﻿@model IEnumerable<Parking.Models.Driver>
 
 @{
     ViewData["Title"] = "Drivers Page";
@@ -91,7 +91,7 @@
                             <td>@driver.OpenCategory</td>
                             <td>@driver.ParkingLotId</td>
                             <td class="gap-2 flex items-center justify-start">
-                                TODO
+                                @* TODO *@
                                 <form asp-action="EditVehicle" asp-route-id="@driver.DriverId" method="get">
                                     <button type="submit" class="blue__button-with-icon" title="Редактировать">
                                         <img src="~/images/icons/edit.svg" alt="Edit" />
@@ -163,4 +163,4 @@
         </div>
     </div>
 </footer>
-  *@
+ 
