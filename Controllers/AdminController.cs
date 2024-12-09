@@ -14,15 +14,17 @@ namespace Parking.Controllers
         private readonly VehicleDbStorage _vehicleDbStorage;
         private readonly ClientDbStorage _clientDbStorage; 
         private readonly DriverDbStorage _driverDbStorage;
+        private readonly GuardDbStorage _guardDbStorage;
 
 
-        public AdminController(ApplicationDbContext context, VehicleDbStorage vehicleDbStorage, ClientDbStorage clientDbStorage, ParkingLotDbStorage parkingLotDbStorage, DriverDbStorage driverDbStorage)
+        public AdminController(ApplicationDbContext context, VehicleDbStorage vehicleDbStorage, ClientDbStorage clientDbStorage, ParkingLotDbStorage parkingLotDbStorage, DriverDbStorage driverDbStorage, GuardDbStorage guardDbStorage)
         {
             _context = context;
             _parkingLotDbStorage = parkingLotDbStorage;
             _vehicleDbStorage = vehicleDbStorage;
             _clientDbStorage = clientDbStorage;
             _driverDbStorage = driverDbStorage;
+            _guardDbStorage = guardDbStorage;   
         }
 
 
@@ -312,6 +314,98 @@ namespace Parking.Controllers
         {
             await _driverDbStorage.DeleteDriver(id);
             return RedirectToAction(nameof(Drivers));
+        }
+
+
+        // Guards
+        public async Task<IActionResult> Guards()
+        {
+            var guards = await _guardDbStorage.GetAllGuards();
+            return View(guards);
+        }
+
+        public IActionResult CreateGuard()
+        {
+            var model = new GuardViewModel();
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateGuard(GuardViewModel models)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(models);
+            }
+
+            var guard = new Guard
+            {
+                LastName = models.LastName,
+                FirstName = models.FirstName,
+                MiddleName = models.MiddleName,
+                Phone = models.Phone,
+                Address = models.Address,
+                Salary = models.Salary,
+                ParkingLotId = models.ParkingLotId
+            };
+
+            await _guardDbStorage.AddGuard(guard);
+            return RedirectToAction(nameof(Guards));
+        }
+
+        //public async Task<IActionResult> EditVehicle(int id)
+        //{
+        //    var vehicle = await _vehicleDbStorage.GetVehicleById(id);
+        //    if (vehicle == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var model = new VehicleViewModel
+        //    {
+        //        VehicleId = vehicle.VehicleId,
+        //        LicensePlate = vehicle.LicensePlate,
+        //        Year = vehicle.Year,
+        //        Brand = vehicle.Brand,
+        //        Model = vehicle.Model,
+        //        ClientId = vehicle.ClientId
+        //    };
+
+        //    return View(model);
+        //}
+
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> EditVehicle(VehicleViewModel models)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View(models);
+        //    }
+
+        //    var vehicle = new Vehicle
+        //    {
+        //        VehicleId = models.VehicleId,
+        //        LicensePlate = models.LicensePlate,
+        //        Year = models.Year,
+        //        Brand = models.Brand,
+        //        Model = models.Model,
+        //        ClientId = models.ClientId
+        //    };
+
+        //    await _vehicleDbStorage.UpdateVehicle(vehicle);
+        //    return RedirectToAction(nameof(Vehicles));
+        //}
+
+
+        [HttpPost, ActionName("DeleteGuard")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteGuardConfirmed(int id)
+        {
+            await _guardDbStorage.DeleteGuard(id);
+            return RedirectToAction(nameof(Guards));
         }
 
     }
