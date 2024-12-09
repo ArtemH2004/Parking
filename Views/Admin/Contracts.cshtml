@@ -1,0 +1,166 @@
+﻿@model IEnumerable<Parking.Models.Contract>
+
+@{
+    ViewData["Title"] = "Contracts Page";
+}
+
+<header class="bg-white w-full shadow-xl">
+    <div class="py-4 gap-10 container z-10 flex w-full items-center justify-between">
+        <a href="#">
+            <span class="text-blue-500 text-3xl font-semibold">Parking</span>
+        </a>
+
+        <nav>
+            <ul class="gap-5 flex items-center justify-center text-lg md:text-xl lg:gap-8">
+                <li class="hidden xl:block">
+                    <a asp-controller="Admin" asp-action="Index" class="blue__link @(ViewContext.RouteData.Values["controller"].ToString() == "Admin" && ViewContext.RouteData.Values["action"].ToString() == "Index" ? "active" : "")">Парковки</a>
+                </li>
+                <li class="hidden xl:block">
+                    <a asp-controller="Admin" asp-action="Clients" class="blue__link @(ViewContext.RouteData.Values["controller"].ToString() == "Admin" && ViewContext.RouteData.Values["action"].ToString() == "Clients" ? "active" : "")">Клиенты</a>
+                </li>
+                <li class="hidden xl:block">
+                    <a asp-controller="Admin" asp-action="Vehicles" class="blue__link @(ViewContext.RouteData.Values["controller"].ToString() == "Admin" && ViewContext.RouteData.Values["action"].ToString() == "Vehicles" ? "active" : "")">Автомобили</a>
+                </li>
+                <li class="hidden xl:block">
+                    <a asp-controller="Admin" asp-action="Contracts" class="blue__link @(ViewContext.RouteData.Values["controller"].ToString() == "Admin" && ViewContext.RouteData.Values["action"].ToString() == "Contracts" ? "active" : "")">Контракты</a>
+                </li>
+                <li class="hidden xl:block">
+                    <a asp-controller="Admin" asp-action="Drivers" class="blue__link @(ViewContext.RouteData.Values["controller"].ToString() == "Admin" && ViewContext.RouteData.Values["action"].ToString() == "Drivers" ? "active" : "")">Водители</a>
+                </li>
+                <li class="hidden xl:block">
+                    <a asp-controller="Admin" asp-action="Guards" class="blue__link @(ViewContext.RouteData.Values["controller"].ToString() == "Admin" && ViewContext.RouteData.Values["action"].ToString() == "Guards" ? "active" : "")">Охранники</a>
+                </li>
+                <li>
+                    <form asp-area=""
+                          asp-controller="Account"
+                          asp-action="Logout"
+                          method="post"
+                          style="display: inline">
+                        <button type="submit" class="blue__link" title="Выйти">
+                            <img src="~/images/icons/exit.svg"
+                                 alt="Вход"
+                                 class="w-8 h-8 object-contain" />
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<section class="section min-vh-100">
+    <div class="gap-4 container flex flex-col">
+        <div class="justify-content-between gap-4 flex items-center">
+            <h1 class="text-3xl font-semibold">Контракты</h1>
+
+            <form asp-action="CreateContract" method="post">
+                <button class="blue__button">
+                    Добавить
+                </button>
+            </form>
+        </div>
+
+        @if (Model != null && Model.Any())
+        {
+            <table class="table rounded-2xl shadow-2xl">
+                <thead class="text-blue-900">
+                    <tr>
+                        <th>ID</th>
+                        <th>Начало</th>
+                        <th>Конец</th>
+                        <th>Стоимость</th>
+                        <th>ID Парковки</th>
+                        <th>ID Авто</th>
+                        <th>ID Клиента</th>
+                        <th>ID Водителя</th>
+                        <th>ID Охранника</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var contract in Model)
+                    {
+                        <tr>
+                            <td>@contract.ContractId</td>
+                            <td>@contract.StartDate</td>
+                            <td>@contract.EndDate</td>
+                            <td>@contract.Amount</td>
+                            <td>@contract.ParkingLotId</td>
+                            <td>@contract.VehicleId</td>
+                            <td>@contract.ClientId</td>
+                            <td>@contract.DriverId</td>
+                            <td>@contract.GuardId</td>
+                            <td class="gap-2 flex items-center justify-start">
+                                @* TODO *@
+                                <form asp-action="EditVehicle" asp-route-id="@contract.ContractId" method="get">
+                                    <button type="submit" class="blue__button-with-icon" title="Редактировать">
+                                        <img src="~/images/icons/edit.svg" alt="Edit" />
+                                    </button>
+                                </form>
+
+                                <form asp-action="DeleteContract" asp-route-id="@contract.ContractId" method="post" onsubmit="return confirm('Вы уверены, что хотите удалить этот контракт?');" style="display:inline;">
+                                    <button type="submit" class="blue__button-with-icon" title="Удалить">
+                                        <img src="~/images/icons/delete.svg" alt="Delete" />
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p class="w-full text-center">Контракты не найдены</p>
+        }
+    </div>
+</section>
+
+<footer class="py-12 bg-white z-10 w-full shadow-xl">
+    <div class="container">
+        <div class="gap-10 grid grid-cols-1 items-center justify-center sm:grid-cols-2 sm:justify-between">
+            <div class="gap-16 flex flex-col justify-between">
+                <a href="#">
+                    <span class="text-blue-500 text-3xl font-semibold">Parking</span>
+                </a>
+
+                <p class="text-gray-500">© 2024 - Parking</p>
+            </div>
+
+            <nav>
+                <ul class="gap-x-6 gap-y-2 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
+                    <li>
+                        <a asp-controller="Admin" asp-action="Index" class="blue__link text-xl">Парковки</a>
+                    </li>
+                    <li>
+                        <a asp-controller="Admin" asp-action="Clients" class="blue__link text-xl">Клиенты</a>
+                    </li>
+                    <li>
+                        <a asp-controller="Admin" asp-action="Vehicles" class="blue__link text-xl">Автомобили</a>
+                    </li>
+                    <li>
+                        <a asp-controller="Admin" asp-action="Contracts" class="blue__link text-xl">Контракты</a>
+                    </li>
+                    <li>
+                        <a asp-controller="Admin" asp-action="Drivers" class="blue__link text-xl">Водители</a>
+                    </li>
+                    <li>
+                        <a asp-controller="Admin" asp-action="Guards" class="blue__link text-xl">Охранники</a>
+                    </li>
+                    <li>
+                        <form asp-area=""
+                              asp-controller="Account"
+                              asp-action="Logout"
+                              method="post"
+                              style="display: inline">
+                            <button type="submit" class="blue__link text-xl">
+                                Выйти
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</footer>
+ 
