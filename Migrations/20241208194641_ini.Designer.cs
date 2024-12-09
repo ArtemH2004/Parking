@@ -12,8 +12,8 @@ using Parking.Data;
 namespace Parking.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241205085623_q")]
-    partial class q
+    [Migration("20241208194641_ini")]
+    partial class ini
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -287,14 +287,17 @@ namespace Parking.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("ParkingLotId")
+                    b.Property<int>("GuardId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ParkingSpaceId")
+                    b.Property<int>("ParkingLotId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("VehicleId")
+                        .HasColumnType("int");
 
                     b.HasKey("ContractId");
 
@@ -302,9 +305,11 @@ namespace Parking.Migrations
 
                     b.HasIndex("DriverId");
 
+                    b.HasIndex("GuardId");
+
                     b.HasIndex("ParkingLotId");
 
-                    b.HasIndex("ParkingSpaceId")
+                    b.HasIndex("VehicleId")
                         .IsUnique();
 
                     b.ToTable("Contracts");
@@ -411,66 +416,12 @@ namespace Parking.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ParkingTypeId")
-                        .HasColumnType("int");
-
                     b.Property<int>("QuantitySpace")
                         .HasColumnType("int");
 
                     b.HasKey("ParkingLotId");
 
-                    b.HasIndex("ParkingTypeId")
-                        .IsUnique();
-
                     b.ToTable("ParkingLots");
-                });
-
-            modelBuilder.Entity("Parking.Models.ParkingSpace", b =>
-                {
-                    b.Property<int>("ParkingSpaceId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ParkingSpaceId"));
-
-                    b.Property<decimal>("DailyPricePerDay")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<bool>("IsOccupied")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("ParkingLotId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SpaceNumber")
-                        .HasColumnType("int");
-
-                    b.HasKey("ParkingSpaceId");
-
-                    b.HasIndex("ParkingLotId");
-
-                    b.ToTable("ParkingSpaces");
-                });
-
-            modelBuilder.Entity("Parking.Models.ParkingType", b =>
-                {
-                    b.Property<int>("ParkingTypeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ParkingTypeId"));
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TypeName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ParkingTypeId");
-
-                    b.ToTable("ParkingTypes");
                 });
 
             modelBuilder.Entity("Parking.Models.Vehicle", b =>
@@ -486,6 +437,9 @@ namespace Parking.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ContractId")
                         .HasColumnType("int");
 
                     b.Property<string>("LicensePlate")
@@ -571,24 +525,30 @@ namespace Parking.Migrations
                     b.HasOne("Parking.Models.Client", "Client")
                         .WithMany("Contracts")
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Parking.Models.Driver", "Driver")
                         .WithMany("Contracts")
                         .HasForeignKey("DriverId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Parking.Models.Guard", "Guard")
+                        .WithMany("Contracts")
+                        .HasForeignKey("GuardId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Parking.Models.ParkingLot", "ParkingLot")
                         .WithMany("Contracts")
                         .HasForeignKey("ParkingLotId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Parking.Models.ParkingSpace", "ParkingSpace")
+                    b.HasOne("Parking.Models.Vehicle", "Vehicle")
                         .WithOne("Contract")
-                        .HasForeignKey("Parking.Models.Contract", "ParkingSpaceId")
+                        .HasForeignKey("Parking.Models.Contract", "VehicleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -596,9 +556,11 @@ namespace Parking.Migrations
 
                     b.Navigation("Driver");
 
+                    b.Navigation("Guard");
+
                     b.Navigation("ParkingLot");
 
-                    b.Navigation("ParkingSpace");
+                    b.Navigation("Vehicle");
                 });
 
             modelBuilder.Entity("Parking.Models.Driver", b =>
@@ -606,7 +568,7 @@ namespace Parking.Migrations
                     b.HasOne("Parking.Models.ParkingLot", "ParkingLot")
                         .WithMany("Drivers")
                         .HasForeignKey("ParkingLotId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("ParkingLot");
@@ -617,29 +579,7 @@ namespace Parking.Migrations
                     b.HasOne("Parking.Models.ParkingLot", "ParkingLot")
                         .WithMany("Guards")
                         .HasForeignKey("ParkingLotId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ParkingLot");
-                });
-
-            modelBuilder.Entity("Parking.Models.ParkingLot", b =>
-                {
-                    b.HasOne("Parking.Models.ParkingType", "ParkingType")
-                        .WithOne("ParkingLot")
-                        .HasForeignKey("Parking.Models.ParkingLot", "ParkingTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ParkingType");
-                });
-
-            modelBuilder.Entity("Parking.Models.ParkingSpace", b =>
-                {
-                    b.HasOne("Parking.Models.ParkingLot", "ParkingLot")
-                        .WithMany("ParkingSpaces")
-                        .HasForeignKey("ParkingLotId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("ParkingLot");
@@ -650,7 +590,7 @@ namespace Parking.Migrations
                     b.HasOne("Parking.Models.Client", "Client")
                         .WithMany("Vehicles")
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Client");
@@ -674,6 +614,11 @@ namespace Parking.Migrations
                     b.Navigation("Contracts");
                 });
 
+            modelBuilder.Entity("Parking.Models.Guard", b =>
+                {
+                    b.Navigation("Contracts");
+                });
+
             modelBuilder.Entity("Parking.Models.ParkingLot", b =>
                 {
                     b.Navigation("Contracts");
@@ -681,19 +626,11 @@ namespace Parking.Migrations
                     b.Navigation("Drivers");
 
                     b.Navigation("Guards");
-
-                    b.Navigation("ParkingSpaces");
                 });
 
-            modelBuilder.Entity("Parking.Models.ParkingSpace", b =>
+            modelBuilder.Entity("Parking.Models.Vehicle", b =>
                 {
                     b.Navigation("Contract")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Parking.Models.ParkingType", b =>
-                {
-                    b.Navigation("ParkingLot")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

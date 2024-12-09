@@ -9,6 +9,7 @@
         public string Model { get; set; }
         public int ClientId { get; set; }
         public Client Client { get; set; }
-        //public Contract Contract { get; set; }
+        public int ContractId { get; set; }
+        public Contract Contract { get; set; }
     }
 }

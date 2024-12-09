@@ -12,10 +12,13 @@ namespace Parking.Models
         public ParkingLot ParkingLot { get; set; }
         public int ClientId { get; set; }
         public Client Client { get; set; }
-        //public int VehicleId { get; set; }
-        //public Vehicle Vehicle { get; set; }
+        public int VehicleId { get; set; }
+        public Vehicle Vehicle { get; set; }
         public int DriverId { get; set; }
         public Driver Driver { get; set; }
+        public int GuardId { get; set; }
+        public Guard Guard { get; set; }
+
 
     }
 }
