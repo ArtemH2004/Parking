@@ -1,0 +1,62 @@
+﻿@model ContractViewModel
+
+<div class="min-vh-100 container flex items-center justify-center">
+    <form asp-action="CreateContract" method="post" class="my-12 px-10 py-10 bg-white gap-6 mx-6 flex w-full flex-col items-center rounded-3xl shadow-2xl sm:px-16 sm:mx-0 sm:w-4/5 lg:w-1/2">
+        @Html.AntiForgeryToken()
+        <h1 class="text-center text-2xl font-semibold">Создание контракта</h1>
+
+        <div class="form__wrapper">
+            <label asp-for="StartDate" class="form__label" for="startDate">Начало</label>
+            <input asp-for="StartDate" type="datetime" class="form__input" id="startDate" placeholder="Иванов" value="@Model.StartDate" />
+            <span asp-validation-for="StartDate" class="form__error"></span>
+        </div>
+
+        <div class="form__wrapper">
+            <label asp-for="EndDate" class="form__label" for="endDate">конец</label>
+            <input asp-for="EndDate" type="datetime" class="form__input" id="endDate" placeholder="Иван" />
+            <span asp-validation-for="EndDate" class="form__error"></span>
+        </div>
+
+        <div class="form__wrapper">
+            <label asp-for="Amount" class="form__label" for="amount">Стоимость</label>
+            <input asp-for="Amount" type="text" class="form__input" id="amount" placeholder="500" />
+            <span asp-validation-for="Amount" class="form__error"></span>
+        </div>
+
+        <div class="form__wrapper">
+            <label asp-for="ParkingLotId" class="form__label" for="parkingLotId">ID Парковки</label>
+            <input asp-for="ParkingLotId" type="number" class="form__input" id="parkingLotId" placeholder="1" />
+            <span asp-validation-for="ParkingLotId" class="form__error"></span>
+        </div>
+
+        <div class="form__wrapper">
+            <label asp-for="VehicleId" class="form__label" for="vehicleId">ID Авто</label>
+            <input asp-for="VehicleId" type="number" class="form__input" id="vehicleId" placeholder="1" />
+            <span asp-validation-for="VehicleId" class="form__error"></span>
+        </div>
+
+        <div class="form__wrapper">
+            <label asp-for="ClientId" class="form__label" for="clientId">ID Клиента</label>
+            <input asp-for="ClientId" type="number" class="form__input" id="clientId" placeholder="1" />
+            <span asp-validation-for="ClientId" class="form__error"></span>
+        </div>
+
+        <div class="form__wrapper">
+            <label asp-for="DriverId" class="form__label" for="driverId">ID Водителя</label>
+            <input asp-for="DriverId" type="number" class="form__input" id="driverId" placeholder="1" />
+            <span asp-validation-for="DriverId" class="form__error"></span>
+        </div>
+
+        <div class="form__wrapper">
+            <label asp-for="GuardId" class="form__label" for="guardId">ID Охранника</label>
+            <input asp-for="GuardId" type="number" class="form__input" id="guardId" placeholder="1" />
+            <span asp-validation-for="GuardId" class="form__error"></span>
+        </div>
+
+        <input type="hidden" asp-for="ContractId" />
+
+        <button type="submit" class="blue__button w-full md:w-4/5">Создать контракт</button>
+
+        <p class="text-center"><a class="blue__link font-semibold" asp-area="" asp-controller="Admin" asp-action="Contracts">Назад к контрактам</a></p>
+    </form>
+</div>

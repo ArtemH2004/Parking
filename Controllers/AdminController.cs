@@ -15,9 +15,10 @@ namespace Parking.Controllers
         private readonly ClientDbStorage _clientDbStorage; 
         private readonly DriverDbStorage _driverDbStorage;
         private readonly GuardDbStorage _guardDbStorage;
+        private readonly ContractDbStorage _contractDbStorage;
 
 
-        public AdminController(ApplicationDbContext context, VehicleDbStorage vehicleDbStorage, ClientDbStorage clientDbStorage, ParkingLotDbStorage parkingLotDbStorage, DriverDbStorage driverDbStorage, GuardDbStorage guardDbStorage)
+        public AdminController(ApplicationDbContext context, VehicleDbStorage vehicleDbStorage, ClientDbStorage clientDbStorage, ParkingLotDbStorage parkingLotDbStorage, DriverDbStorage driverDbStorage, GuardDbStorage guardDbStorage, ContractDbStorage contractDbStorage)
         {
             _context = context;
             _parkingLotDbStorage = parkingLotDbStorage;
@@ -25,6 +26,7 @@ namespace Parking.Controllers
             _clientDbStorage = clientDbStorage;
             _driverDbStorage = driverDbStorage;
             _guardDbStorage = guardDbStorage;   
+            _contractDbStorage = contractDbStorage;
         }
 
 
@@ -406,6 +408,98 @@ namespace Parking.Controllers
         {
             await _guardDbStorage.DeleteGuard(id);
             return RedirectToAction(nameof(Guards));
+        }
+
+        // Contracts
+        public async Task<IActionResult> Contracts()
+        {
+            var contracts = await _contractDbStorage.GetAllContracts();
+            return View(contracts);
+        }
+
+        public IActionResult CreateContract()
+        {
+            var model = new ContractViewModel();
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateContract(ContractViewModel models)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(models);
+            }
+
+            var contract = new Contract
+            {
+                StartDate = DateTime.Now,
+                EndDate = models.EndDate,
+                Amount = models.Amount,
+                ParkingLotId = models.ParkingLotId > 0 ? models.ParkingLotId : 1,
+                VehicleId = models.VehicleId > 0 ? models.VehicleId : 1,
+                ClientId = models.ClientId > 0 ? models.ClientId : 2,
+                DriverId = models.DriverId > 0 ? models.DriverId : 2,
+                GuardId = models.GuardId > 0 ? models.GuardId : 1
+            };
+
+            await _contractDbStorage.AddContract(contract);
+            return RedirectToAction(nameof(Contracts));
+        }
+
+        //public async Task<IActionResult> EditVehicle(int id)
+        //{
+        //    var vehicle = await _vehicleDbStorage.GetVehicleById(id);
+        //    if (vehicle == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var model = new VehicleViewModel
+        //    {
+        //        VehicleId = vehicle.VehicleId,
+        //        LicensePlate = vehicle.LicensePlate,
+        //        Year = vehicle.Year,
+        //        Brand = vehicle.Brand,
+        //        Model = vehicle.Model,
+        //        ClientId = vehicle.ClientId
+        //    };
+
+        //    return View(model);
+        //}
+
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> EditVehicle(VehicleViewModel models)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View(models);
+        //    }
+
+        //    var vehicle = new Vehicle
+        //    {
+        //        VehicleId = models.VehicleId,
+        //        LicensePlate = models.LicensePlate,
+        //        Year = models.Year,
+        //        Brand = models.Brand,
+        //        Model = models.Model,
+        //        ClientId = models.ClientId
+        //    };
+
+        //    await _vehicleDbStorage.UpdateVehicle(vehicle);
+        //    return RedirectToAction(nameof(Vehicles));
+        //}
+
+
+        [HttpPost, ActionName("DeleteContract")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteContractConfirmed(int id)
+        {
+            await _contractDbStorage.DeleteContract(id);
+            return RedirectToAction(nameof(Contracts));
         }
 
     }
