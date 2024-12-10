@@ -41,6 +41,31 @@ namespace Parking.Controllers
             return View(client);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateAvatar(IFormFile file)
+        {
+            if (file != null && file.Length > 0)
+            {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var client = await _context.Clients.FirstOrDefaultAsync(c => c.ApplicationUserId == userId);
+
+                if (client != null)
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await file.CopyToAsync(memoryStream);
+                        client.Photo = memoryStream.ToArray();
+                    }
+
+                    _context.Clients.Update(client);
+                    await _context.SaveChangesAsync();
+                }
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
         public IActionResult CreateVehicle()
         {
             var model = new VehicleViewModel { ClientId = GetCurrentClientId() };
@@ -90,7 +115,6 @@ namespace Parking.Controllers
             return View(model);
         }
 
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditVehicle(VehicleViewModel models)
@@ -100,30 +124,32 @@ namespace Parking.Controllers
                 return View(models);
             }
 
-            var vehicle = new Vehicle
-            {
-                VehicleId = models.VehicleId,
-                LicensePlate = models.LicensePlate,
-                Year = models.Year,
-                Brand = models.Brand,
-                Model = models.Model,
-                ClientId = models.ClientId
-            };
-
-            await _vehicleDbStorage.UpdateVehicle(vehicle);
-            return RedirectToAction(nameof(Index));
-        }
-
-        public async Task<IActionResult> DeleteVehicle(int id)
-        {
-            var vehicle = await _vehicleDbStorage.GetVehicleById(id);
+            var vehicle = await _vehicleDbStorage.GetVehicleById(models.VehicleId);
             if (vehicle == null)
             {
                 return NotFound();
             }
 
-            return View(vehicle);
+            vehicle.LicensePlate = models.LicensePlate;
+            vehicle.Year = models.Year;
+            vehicle.Brand = models.Brand;
+            vehicle.Model = models.Model;
+            vehicle.ClientId = models.ClientId;
+
+            if (models.Photo != null)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await models.Photo.CopyToAsync(memoryStream);
+                    vehicle.Photo = memoryStream.ToArray();
+                }
+            }
+
+            await _vehicleDbStorage.UpdateVehicle(vehicle);
+
+            return RedirectToAction(nameof(Index));
         }
+
 
         [HttpPost, ActionName("DeleteVehicle")]
         [ValidateAntiForgeryToken]
