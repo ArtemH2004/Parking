@@ -1,8 +1,8 @@
 ﻿@model VehicleViewModel
 
 <div class="min-vh-100 container flex items-center justify-center">
-   
-    <form asp-action="EditVehicle" method="post" class="my-12 px-10 py-10 bg-white gap-6 mx-6 flex w-full flex-col items-center rounded-3xl shadow-2xl sm:px-16 sm:mx-0 sm:w-4/5 lg:w-1/2">
+
+    <form asp-action="EditVehicle" method="post" enctype="multipart/form-data" class="my-12 px-10 py-10 bg-white gap-6 mx-6 flex w-full flex-col items-center rounded-3xl shadow-2xl sm:px-16 sm:mx-0 sm:w-4/5 lg:w-1/2">
         @Html.AntiForgeryToken()
         <h1 class="text-center text-2xl font-semibold">Редактирование автомобиля</h1>
 
@@ -30,10 +30,31 @@
             <span asp-validation-for="Model" class="form__error"></span>
         </div>
 
+        <div class="form__wrapper">
+            <label asp-for="Photo" class="form__label" for="photo">Фото автомобиля</label>
+            <input asp-for="Photo" type="file" id="photo" accept="image/*" class="hidden" onchange="updateFileName()" />
+            <div class="align-items-center gap-2 flex">
+                <label for="photo" class="blue__button px-3 py-1 duration-300">Выберите фото</label>
+                <span id="fileName">@((Model.Photo?.FileName != null) ? Model.Photo.FileName : "Фото не выбрано")</span>
+            </div>
+            <span asp-validation-for="Photo" class="form__error"></span>
+        </div>
+
         <input type="hidden" asp-for="ClientId" />
+
+        <input type="hidden" asp-for="VehicleId" />
 
         <button type="submit" class="blue__button w-full md:w-4/5">Сохранить изменения</button>
 
-        <p class="text-center"><a class="blue__link font-semibold" asp-area="" asp-controller="Client" asp-action="Index">Назад к автомобилям</a></p>
+        <p class="text-center"><a class="blue__link font-semibold" asp-area="" asp-controller="Admin" asp-action="Vehicles">Назад к автомобилям</a></p>
     </form>
 </div>
+
+
+<script>
+    function updateFileName() {
+        const input = document.getElementById('photo');
+        const fileName = input.files[0] ? input.files[0].name : '';
+        document.getElementById('fileName').innerText = fileName;
+    }
+</script>
