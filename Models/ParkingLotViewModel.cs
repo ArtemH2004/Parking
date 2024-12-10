@@ -11,5 +11,6 @@ namespace Parking.Models
         public string Address { get; set; }
         [Required]
         public int QuantitySpace { get; set; }
+        public IFormFile? Photo { get; set; }
     }
 }

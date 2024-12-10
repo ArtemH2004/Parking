@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Parking.Models.Client>
 
 @{
-    ViewData["Title"] = "Admin Page";
+    ViewData["Title"] = "Clients Page";
 }
 
 <header class="bg-white w-full shadow-xl">
@@ -80,7 +80,7 @@
                             <td>@vehicle.Phone</td>
                             <td>@vehicle.Address</td>
                             <td>@vehicle.Email</td>
-                            <td class="gap-2 flex items-center justify-start">
+                            <td class="gap-2 flex items-center justify-center">
 
                                 <form asp-action="DeleteClient" asp-route-id="@vehicle.ClientId" method="post" onsubmit="return confirm('Вы уверены, что хотите удалить данного клиента?');" style="display:inline;">
                                     <button type="submit" class="blue__button-with-icon" title="Удалить">

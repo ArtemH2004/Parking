@@ -80,9 +80,8 @@
                             <td>@parkingLot.Name</td>
                             <td>@parkingLot.Address</td>
                             <td>@parkingLot.QuantitySpace</td>
-                            <td class="gap-2 flex items-center justify-start">
-                                @* TODO *@
-                                <form asp-action="EditVehicle" asp-route-id="@parkingLot.ParkingLotId" method="get">
+                            <td class="gap-2 flex items-center justify-center">
+                                <form asp-action="EditParkingLot" asp-route-id="@parkingLot.ParkingLotId" method="get">
                                     <button type="submit" class="blue__button-with-icon" title="Редактировать">
                                         <img src="~/images/icons/edit.svg" alt="Edit" />
                                     </button>
