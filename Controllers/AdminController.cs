@@ -286,51 +286,74 @@ namespace Parking.Controllers
             return RedirectToAction(nameof(Drivers));
         }
 
-        //public async Task<IActionResult> EditVehicle(int id)
-        //{
-        //    var vehicle = await _vehicleDbStorage.GetVehicleById(id);
-        //    if (vehicle == null)
-        //    {
-        //        return NotFound();
-        //    }
+        public async Task<IActionResult> EditDriver(int id)
+        {
+            var driver = await _driverDbStorage.GetDriverById(id);
+            if (driver == null)
+            {
+                return NotFound();
+            }
 
-        //    var model = new VehicleViewModel
-        //    {
-        //        VehicleId = vehicle.VehicleId,
-        //        LicensePlate = vehicle.LicensePlate,
-        //        Year = vehicle.Year,
-        //        Brand = vehicle.Brand,
-        //        Model = vehicle.Model,
-        //        ClientId = vehicle.ClientId
-        //    };
+            var model = new DriverViewModel
+            {
+                DriverId = driver.DriverId,
+                LastName = driver.LastName,
+                FirstName = driver.FirstName,
+                MiddleName = driver.MiddleName,
+                Phone = driver.Phone,
+                ExperienceYears = driver.ExperienceYears,
+                Salary = driver.Salary,
+                OpenCategory = driver.OpenCategory,
+                ParkingLotId = driver.ParkingLotId
+            };
 
-        //    return View(model);
-        //}
+            return View(model);
+        }
 
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> EditVehicle(VehicleViewModel models)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View(models);
-        //    }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditDriver(DriverViewModel models)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(models);
+            }
 
-        //    var vehicle = new Vehicle
-        //    {
-        //        VehicleId = models.VehicleId,
-        //        LicensePlate = models.LicensePlate,
-        //        Year = models.Year,
-        //        Brand = models.Brand,
-        //        Model = models.Model,
-        //        ClientId = models.ClientId
-        //    };
+            var driver = await _driverDbStorage.GetDriverById(models.DriverId);
+            if (driver == null)
+            {
+                return NotFound();
+            }
 
-        //    await _vehicleDbStorage.UpdateVehicle(vehicle);
-        //    return RedirectToAction(nameof(Vehicles));
-        //}
+            driver.LastName = models.LastName;
+            driver.FirstName = models.FirstName;
+            driver.MiddleName = models.MiddleName;
+            driver.Phone = models.Phone;
+            driver.ExperienceYears = models.ExperienceYears;
+            driver.Salary = models.Salary;
+            driver.OpenCategory = models.OpenCategory;
+            driver.ParkingLotId = models.ParkingLotId;
 
+            //vehicle.LicensePlate = models.LicensePlate;
+            //vehicle.Year = models.Year;
+            //vehicle.Brand = models.Brand;
+            //vehicle.Model = models.Model;
+            //vehicle.ClientId = models.ClientId;
+
+            //if (models.Photo != null)
+            //{
+            //    using (var memoryStream = new MemoryStream())
+            //    {
+            //        await models.Photo.CopyToAsync(memoryStream);
+            //        vehicle.Photo = memoryStream.ToArray();
+            //    }
+            //}
+
+            await _driverDbStorage.UpdateDriver(driver);
+
+            return RedirectToAction(nameof(Drivers));
+        }
 
         [HttpPost, ActionName("DeleteDriver")]
         [ValidateAntiForgeryToken]

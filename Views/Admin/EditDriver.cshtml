@@ -1,9 +1,9 @@
 ﻿@model DriverViewModel
 
 <div class="min-vh-100 container flex items-center justify-center">
-    <form asp-action="CreateDriver" method="post" class="my-12 px-10 py-10 bg-white gap-6 mx-6 flex w-full flex-col items-center rounded-3xl shadow-2xl sm:px-16 sm:mx-0 sm:w-4/5 lg:w-1/2">
+    <form asp-action="EditDriver" method="post" class="my-12 px-10 py-10 bg-white gap-6 mx-6 flex w-full flex-col items-center rounded-3xl shadow-2xl sm:px-16 sm:mx-0 sm:w-4/5 lg:w-1/2">
         @Html.AntiForgeryToken()
-        <h1 class="text-center text-2xl font-semibold">Создание водителя</h1>
+        <h1 class="text-center text-2xl font-semibold">Редактирование водителя</h1>
 
         <div class="form__wrapper">
             <label asp-for="LastName" class="form__label" for="lastName">Фамилия</label>
@@ -55,7 +55,7 @@
 
         <input type="hidden" asp-for="DriverId" />
 
-        <button type="submit" class="blue__button w-full md:w-4/5">Создать водителя</button>
+        <button type="submit" class="blue__button w-full md:w-4/5">Сохранить изменения</button>
 
         <p class="text-center"><a class="blue__link font-semibold" asp-area="" asp-controller="Admin" asp-action="Drivers">Назад к водителям</a></p>
     </form>

@@ -62,7 +62,7 @@
 
         @if (Model != null && Model.Any())
         {
-            <table class="table rounded-2xl shadow-2xl">
+            <table class="table rounded-2xl text-center shadow-2xl">
                 <thead class="text-blue-900">
                     <tr>
                         <th>ID</th>
@@ -90,9 +90,8 @@
                             <td>@driver.Salary</td>
                             <td>@driver.OpenCategory</td>
                             <td>@driver.ParkingLotId</td>
-                            <td class="gap-2 flex items-center justify-start">
-                                @* TODO *@
-                                <form asp-action="EditVehicle" asp-route-id="@driver.DriverId" method="get">
+                            <td class="gap-2 flex items-center justify-center">
+                                <form asp-action="EditDriver" asp-route-id="@driver.DriverId" method="get">
                                     <button type="submit" class="blue__button-with-icon" title="Редактировать">
                                         <img src="~/images/icons/edit.svg" alt="Edit" />
                                     </button>
