@@ -5,18 +5,24 @@
 namespace Parking.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class ini : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-
+            migrationBuilder.AddColumn<byte[]>(
+                name: "Photo",
+                table: "Vehicles",
+                type: "varbinary(max)",
+                nullable: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-
+            migrationBuilder.DropColumn(
+                name: "Photo",
+                table: "Vehicles");
         }
     }
 }

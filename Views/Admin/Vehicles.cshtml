@@ -65,11 +65,12 @@
             <table class="table rounded-2xl shadow-2xl">
                 <thead class="text-blue-900">
                     <tr>
-                        <th>ID Клиента</th>
+                        <th>ID</th>
                         <th>Номер</th>
                         <th>Год</th>
                         <th>Марка</th>
                         <th>Модель</th>
+                        <th>ID Клиента</th>
                         <th>Действия</th>
                     </tr>
                 </thead>
@@ -77,20 +78,18 @@
                     @foreach (var vehicle in Model)
                     {
                         <tr>
-                            <td>@vehicle.ClientId</td>
+                            <td>@vehicle.VehicleId</td>
                             <td>@vehicle.LicensePlate</td>
                             <td>@vehicle.Year</td>
                             <td>@vehicle.Brand</td>
                             <td>@vehicle.Model</td>
+                            <td>@vehicle.ClientId</td>
                             <td class="gap-2 flex items-center justify-start">
-                                <a class="blue__button-with-icon" title="Изменить" asp-action="EditVehicle" asp-route-id="@vehicle.VehicleId">
-                                  <img src="~/images/icons/edit.svg" alt="Edit" />
-                                </a>
-                               @*  <form asp-action="EditVehicle" asp-route-id="@vehicle.VehicleId" method="post">
+                                <form asp-action="EditVehicle" asp-route-id="@vehicle.VehicleId" method="get">
                                     <button type="submit" class="blue__button-with-icon" title="Редактировать">
                                         <img src="~/images/icons/edit.svg" alt="Edit" />
                                     </button>
-                                </form> *@
+                                </form>
 
                                 <form asp-action="DeleteVehicle" asp-route-id="@vehicle.VehicleId" method="post" onsubmit="return confirm('Вы уверены, что хотите удалить этот автомобиль?');" style="display:inline;">
                                     <button type="submit" class="blue__button-with-icon" title="Удалить">

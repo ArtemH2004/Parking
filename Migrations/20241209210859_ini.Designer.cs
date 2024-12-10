@@ -12,8 +12,8 @@ using Parking.Data;
 namespace Parking.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241209200557_init")]
-    partial class init
+    [Migration("20241209210859_ini")]
+    partial class ini
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -449,6 +449,9 @@ namespace Parking.Migrations
                     b.Property<string>("Model")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("Photo")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<int>("Year")
                         .HasColumnType("int");

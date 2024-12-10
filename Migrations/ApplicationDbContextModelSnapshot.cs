@@ -447,6 +447,9 @@ namespace Parking.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<byte[]>("Photo")
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<int>("Year")
                         .HasColumnType("int");
 
