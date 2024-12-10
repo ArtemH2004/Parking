@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Parking.Data;
 using Parking.Services;
 using Parking.DAL;
+using System.Diagnostics.Contracts;
 
 namespace Parking.Controllers
 {
@@ -425,7 +426,6 @@ namespace Parking.Controllers
             return View(model);
         }
 
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditGuard(GuardViewModel models)
@@ -469,82 +469,89 @@ namespace Parking.Controllers
             return View(contracts);
         }
 
-        public IActionResult CreateContract()
-        {
-            var model = new ContractViewModel();
-            return View(model);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateContract(ContractViewModel models)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(models);
-            }
-
-            var contract = new Contract
-            {
-                StartDate = DateTime.Now,
-                EndDate = models.EndDate,
-                Amount = models.Amount,
-                ParkingLotId = models.ParkingLotId > 0 ? models.ParkingLotId : 1,
-                VehicleId = models.VehicleId > 0 ? models.VehicleId : 1,
-                ClientId = models.ClientId > 0 ? models.ClientId : 2,
-                DriverId = models.DriverId > 0 ? models.DriverId : 2,
-                GuardId = models.GuardId > 0 ? models.GuardId : 1
-            };
-
-            await _contractDbStorage.AddContract(contract);
-            return RedirectToAction(nameof(Contracts));
-        }
-
-        //public async Task<IActionResult> EditVehicle(int id)
+        //public IActionResult CreateContract()
         //{
-        //    var vehicle = await _vehicleDbStorage.GetVehicleById(id);
-        //    if (vehicle == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var model = new VehicleViewModel
-        //    {
-        //        VehicleId = vehicle.VehicleId,
-        //        LicensePlate = vehicle.LicensePlate,
-        //        Year = vehicle.Year,
-        //        Brand = vehicle.Brand,
-        //        Model = vehicle.Model,
-        //        ClientId = vehicle.ClientId
-        //    };
-
+        //    var model = new ContractViewModel();
         //    return View(model);
         //}
 
-
         //[HttpPost]
         //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> EditVehicle(VehicleViewModel models)
+        //public async Task<IActionResult> CreateContract(ContractViewModel models)
         //{
         //    if (!ModelState.IsValid)
         //    {
         //        return View(models);
         //    }
 
-        //    var vehicle = new Vehicle
+        //    var contract = new Contract
         //    {
+        //        StartDate = DateTime.Now,
+        //        EndDate = models.EndDate,
+        //        Amount = models.Amount,
+        //        ParkingLotId = models.ParkingLotId,
         //        VehicleId = models.VehicleId,
-        //        LicensePlate = models.LicensePlate,
-        //        Year = models.Year,
-        //        Brand = models.Brand,
-        //        Model = models.Model,
-        //        ClientId = models.ClientId
+        //        ClientId = models.ClientId,
+        //        DriverId = models.DriverId,
+        //        GuardId = models.GuardId
         //    };
 
-        //    await _vehicleDbStorage.UpdateVehicle(vehicle);
-        //    return RedirectToAction(nameof(Vehicles));
+        //    await _contractDbStorage.AddContract(contract);
+        //    return RedirectToAction(nameof(Contracts));
         //}
 
+        public async Task<IActionResult> EditContract(int id)
+        {
+            var contract = await _contractDbStorage.GetContractById(id);
+            if (contract == null)
+            {
+                return NotFound();
+            }
+
+            var model = new ContractViewModel
+            {
+                ContractId = contract.ContractId,
+                StartDate = contract.StartDate,
+                EndDate = contract.EndDate,
+                Amount = contract.Amount,
+                ParkingLotId = contract.ParkingLotId,
+                VehicleId = contract.VehicleId,
+                ClientId = contract.ClientId,
+                DriverId = contract.DriverId,
+                GuardId = contract.GuardId
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditContract(ContractViewModel models)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(models);
+            }
+
+            var contract = await _contractDbStorage.GetContractById(models.ContractId);
+            if (contract == null)
+            {
+                return NotFound();
+            }
+
+            contract.StartDate = models.StartDate;
+            contract.EndDate = models.EndDate;
+            contract.Amount = models.Amount;
+            contract.ParkingLotId = models.ParkingLotId;
+            contract.VehicleId = models.VehicleId;
+            contract.ClientId = models.ClientId;
+            contract.DriverId = models.DriverId;
+            contract.GuardId = models.GuardId;
+
+            await _contractDbStorage.UpdateContract(contract);
+
+            return RedirectToAction(nameof(Contracts));
+        }
 
         [HttpPost, ActionName("DeleteContract")]
         [ValidateAntiForgeryToken]
