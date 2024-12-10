@@ -34,6 +34,7 @@ namespace Parking.Services
             _context.Drivers.Update(driver);
             await _context.SaveChangesAsync();
         }
+
         public async Task DeleteDriver(int id)
         {
             var driver = await _context.Drivers.FindAsync(id);
