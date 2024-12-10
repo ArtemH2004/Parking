@@ -25,6 +25,12 @@ namespace Parking.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var client = _context.Clients
                 .Include(c => c.Vehicles)
+                .Include(c => c.Contracts)
+                .ThenInclude(c => c.ParkingLot)
+                    .ThenInclude(pl => pl.Drivers)
+                .Include(c => c.Contracts)
+                    .ThenInclude(c => c.ParkingLot)
+                        .ThenInclude(pl => pl.Guards)
                 .FirstOrDefault(c => c.ApplicationUserId == userId);
 
             if (client == null)

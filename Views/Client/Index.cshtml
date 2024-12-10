@@ -84,10 +84,9 @@
                     </a>
                 </div>
 
-                <ul class="gap-6 grid w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
-
-                    @if (Model.Vehicles != null && Model.Vehicles.Any())
-                    {
+                @if (Model.Vehicles != null && Model.Vehicles.Any())
+                {
+                    <ul class="gap-6 grid w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
                         @foreach (var vehicle in Model.Vehicles)
                         {
                             <li class="p-3 bg-white gap-2 card__hover-button flex w-full select-none flex-col rounded-2xl shadow-2xl">
@@ -120,73 +119,94 @@
                                 </div>
                             </li>
                         }
-                    }
-                    else
-                    {
-                        <p class="w-full text-center">Автомобили не найдены</p>
-                    }
-                </ul>
+
+                    </ul>
+                }
+                else
+                {
+                    <p class="w-full text-center">Автомобили не найдены</p>
+                }
             </div>
         </div>
 
         <h2 class="px-4 pt-2 text-3xl font-semibold lg:pt-4">Контракты</h2>
 
-        <ul class="gap-6 grid grid-cols-1 lg:grid-cols-2">
-            <li class="p-6 bg-white gap-4 flex w-full flex-col items-center justify-center rounded-2xl shadow-2xl">
-                <div class="gap-4 flex flex-col items-center justify-between sm:flex-row sm:gap-6">
-                    <img src="./images/icons/default-parking.svg"
-                         alt=""
-                         class="aspect-auto w-full rounded-lg sm:w-1/3" />
+        @if (Model.Contracts != null && Model.Contracts.Any())
+        {
+            <ul class="gap-6 grid grid-cols-1 lg:grid-cols-2">
+                @foreach (var contract in Model.Contracts)
+                {
+                            <li
+          class="p-6 bg-white gap-4 flex w-full flex-col rounded-2xl shadow-2xl"
+        >
+          <h3 class="text-center text-xl font-semibold">@contract.ParkingLot.Name</h3>
 
-                    <div class="gap-2 flex w-full flex-col items-start">
-                        <h3 class="text-xl font-semibold">ул. Тверская</h3>
+          <div
+            class="gap-4 flex w-full flex-col items-center justify-between sm:flex-row sm:gap-6"
+          >
+            <img src="@((contract.ParkingLot.Photo == null) ? Url.Content("~/images/icons/default-parking.svg") : $"data:image;base64,{Convert.ToBase64String(contract.ParkingLot.Photo)}")"
+              alt="Parking Lot Image"
+              class="min-w-72 h-44 w-full rounded-lg object-cover sm:w-1/3" />
 
-                        <ul class="flex w-full flex-col text-nowrap">
-                            <li class="gap-2 flex items-center justify-between">
-                                <h4 class="text-black font-medium">Начало:</h4>
-                                <div class="h-4 w-full border-b-2 border-dashed"></div>
-                                <span class="text-blue-500">06:00</span>
-                            </li>
-                            <li class="gap-2 flex items-center justify-between">
-                                <h4 class="text-black font-medium">Окончание:</h4>
-                                <div class="h-4 w-full border-b-2 border-dashed"></div>
-                                <span class="text-blue-500">18:00</span>
-                            </li>
-                            <li class="gap-2 flex items-center justify-between">
-                                <h4 class="text-black font-medium">Парковочное место:</h4>
-                                <div class="h-4 w-full border-b-2 border-dashed"></div>
-                                <span class="text-blue-500">52</span>
-                            </li>
-                            <li class="gap-2 flex items-center justify-between">
-                                <h4 class="text-black font-medium">Стоимость (₽):</h4>
-                                <div class="h-4 w-full border-b-2 border-dashed"></div>
-                                <span class="text-blue-500">160</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <ul class="gap-3 grid grid-cols-3 items-center justify-center">
-                    <li class="gap-1 flex flex-col items-center justify-center">
-                        <h4 class="font-medium">Авто</h4>
-                        <img src="./images/icons/default-car.svg"
-                             alt=""
-                             class="aspect-square w-1/2 rounded-full border object-cover" />
-                    </li>
-                    <li class="gap-1 flex flex-col items-center justify-center">
-                        <h4 class="font-medium">Водитель</h4>
-                        <img src="./images/icons/default-driver.svg"
-                             alt=""
-                             class="aspect-square w-1/2 rounded-full border object-cover" />
-                    </li>
-                    <li class="gap-1 flex flex-col items-center justify-center">
-                        <h4 class="font-medium">Охранник</h4>
-                        <img src="./images/icons/default-guard.svg"
-                             alt=""
-                             class="aspect-square w-1/2 rounded-full border object-cover" />
-                    </li>
-                </ul>
+            <ul class="flex w-full flex-col text-nowrap">
+              <li class="gap-2 flex items-center justify-between">
+                <h4 class="text-black font-medium">Адрес:</h4>
+                <div class="h-4 w-full border-b-2 border-dashed"></div>
+                <span class="text-blue-500">@contract.ParkingLot.Address</span>
+              </li>
+              <li class="gap-2 flex items-center justify-between">
+                <h4 class="text-black font-medium">Начало:</h4>
+                <div class="h-4 w-full border-b-2 border-dashed"></div>
+                <span class="text-blue-500">@contract.StartDate</span>
+              </li>
+              <li class="gap-2 flex items-center justify-between">
+                <h4 class="text-black font-medium">Окончание:</h4>
+                <div class="h-4 w-full border-b-2 border-dashed"></div>
+                <span class="text-blue-500">@contract.EndDate</span>
+              </li>
+              <li class="gap-2 flex items-center justify-between">
+                <h4 class="text-black font-medium">Парковочное место:</h4>
+                <div class="h-4 w-full border-b-2 border-dashed"></div>
+                <span class="text-blue-500">@contract.ParkingLot.QuantitySpace</span>
+              </li>
+              <li class="gap-2 flex items-center justify-between">
+                <h4 class="text-black font-medium">Стоимость (₽):</h4>
+                <div class="h-4 w-full border-b-2 border-dashed"></div>
+                <span class="text-blue-500">160</span>
+              </li>
+            </ul>
+          </div>
+
+          <ul class="gap-3 grid w-full grid-cols-3">
+            <li class="gap-2 flex w-full flex-col items-center justify-center">
+              <h4 class="font-medium">Авто</h4>
+                <img src="~/images/icons/default-car.svg"
+                alt=""
+                class="w-20 aspect-square rounded-full border object-cover"
+              />
+              <p class="text-center">@contract.Vehicle.Brand @contract.Vehicle.Model</p> 
             </li>
-        </ul>
+
+            <li class="gap-2 flex w-full flex-col items-center justify-center">
+              <h4 class="font-medium">Водитель</h4>
+                <img src="~/images/icons/default-driver.svg" alt="" class="w-20 aspect-square rounded-full border object-cover" />
+                <p class="text-center">@contract.Driver.LastName @contract.Driver.FirstName @contract.Driver.MiddleName</p>
+            </li>
+
+            <li class="gap-2 flex w-full flex-col items-center justify-center">
+              <h4 class="font-medium">Охранник</h4>
+                <img src="~/images/icons/default-guard.svg" alt="" class="w-20 aspect-square rounded-full border object-cover" />
+                <p class="text-center">@contract.Guard.LastName @contract.Guard.FirstName @contract.Guard.MiddleName</p>
+            </li>
+          </ul>
+        </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p class="w-full text-center">Контракты не найдены</p>
+        }
     </div>
 </section>
 
