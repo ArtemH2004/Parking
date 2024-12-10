@@ -45,11 +45,17 @@ namespace Parking.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             //// Client - Contract: One to Many
-            modelBuilder.Entity<Client>()
-                .HasMany(c => c.Contracts)
-                .WithOne(con => con.Client)
-                .HasForeignKey(con => con.ClientId)
-                .OnDelete(DeleteBehavior.Restrict);
+            //modelBuilder.Entity<Client>()
+            //    .HasMany(c => c.Contracts)
+            //    .WithOne(con => con.Client)
+            //    .HasForeignKey(con => con.ClientId)
+            //    .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Contract>()
+               .HasOne(c => c.Client)
+               .WithMany(g => g.Contracts)
+               .HasForeignKey(c => c.ClientId)
+               .OnDelete(DeleteBehavior.Restrict);
 
             ////// Driver - Contract: One to Many
             //modelBuilder.Entity<Driver>()

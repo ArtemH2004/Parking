@@ -1,19 +1,19 @@
 ﻿@model ContractViewModel
 
 <div class="min-vh-100 container flex items-center justify-center">
-    <form asp-action="CreateContract" method="post" class="my-12 px-10 py-10 bg-white gap-6 mx-6 flex w-full flex-col items-center rounded-3xl shadow-2xl sm:px-16 sm:mx-0 sm:w-4/5 lg:w-1/2">
+    <form asp-action="EditContract" method="post" class="my-12 px-10 py-10 bg-white gap-6 mx-6 flex w-full flex-col items-center rounded-3xl shadow-2xl sm:px-16 sm:mx-0 sm:w-4/5 lg:w-1/2">
         @Html.AntiForgeryToken()
-        <h1 class="text-center text-2xl font-semibold">Создание контракта</h1>
+        <h1 class="text-center text-2xl font-semibold">Редактирование контракта</h1>
 
         <div class="form__wrapper">
             <label asp-for="StartDate" class="form__label" for="startDate">Начало</label>
-            <input asp-for="StartDate" type="datetime" class="form__input" id="startDate" placeholder="Иванов" value="@Model.StartDate" />
+            <input asp-for="StartDate" type="datetime" class="form__input" id="startDate" placeholder="20.12.2024" value="@Model.StartDate" />
             <span asp-validation-for="StartDate" class="form__error"></span>
         </div>
 
         <div class="form__wrapper">
             <label asp-for="EndDate" class="form__label" for="endDate">Конец</label>
-            <input asp-for="EndDate" type="datetime" class="form__input" id="endDate" placeholder="Иван" />
+            <input asp-for="EndDate" type="datetime" class="form__input" id="endDate" placeholder="21.12.2024" />
             <span asp-validation-for="EndDate" class="form__error"></span>
         </div>
 
@@ -55,7 +55,7 @@
 
         <input type="hidden" asp-for="ContractId" />
 
-        <button type="submit" class="blue__button w-full md:w-4/5">Создать контракт</button>
+        <button type="submit" class="blue__button w-full md:w-4/5">Сохранить изменения</button>
 
         <p class="text-center"><a class="blue__link font-semibold" asp-area="" asp-controller="Admin" asp-action="Contracts">Назад к контрактам</a></p>
     </form>
