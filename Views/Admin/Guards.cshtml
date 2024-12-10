@@ -88,9 +88,8 @@
                             <td>@guard.Address</td>
                             <td>@guard.Salary</td>
                             <td>@guard.ParkingLotId</td>
-                            <td class="gap-2 flex items-center justify-start">
-                                @* TODO *@
-                                <form asp-action="EditVehicle" asp-route-id="@guard.GuardId" method="get">
+                            <td class="gap-2 flex items-center justify-center">
+                                <form asp-action="EditGuard" asp-route-id="@guard.GuardId" method="get">
                                     <button type="submit" class="blue__button-with-icon" title="Редактировать">
                                         <img src="~/images/icons/edit.svg" alt="Edit" />
                                     </button>

@@ -335,21 +335,6 @@ namespace Parking.Controllers
             driver.OpenCategory = models.OpenCategory;
             driver.ParkingLotId = models.ParkingLotId;
 
-            //vehicle.LicensePlate = models.LicensePlate;
-            //vehicle.Year = models.Year;
-            //vehicle.Brand = models.Brand;
-            //vehicle.Model = models.Model;
-            //vehicle.ClientId = models.ClientId;
-
-            //if (models.Photo != null)
-            //{
-            //    using (var memoryStream = new MemoryStream())
-            //    {
-            //        await models.Photo.CopyToAsync(memoryStream);
-            //        vehicle.Photo = memoryStream.ToArray();
-            //    }
-            //}
-
             await _driverDbStorage.UpdateDriver(driver);
 
             return RedirectToAction(nameof(Drivers));
@@ -401,51 +386,57 @@ namespace Parking.Controllers
             return RedirectToAction(nameof(Guards));
         }
 
-        //public async Task<IActionResult> EditVehicle(int id)
-        //{
-        //    var vehicle = await _vehicleDbStorage.GetVehicleById(id);
-        //    if (vehicle == null)
-        //    {
-        //        return NotFound();
-        //    }
+        public async Task<IActionResult> EditGuard(int id)
+        {
+            var guard = await _guardDbStorage.GetGuardById(id);
+            if (guard == null)
+            {
+                return NotFound();
+            }
 
-        //    var model = new VehicleViewModel
-        //    {
-        //        VehicleId = vehicle.VehicleId,
-        //        LicensePlate = vehicle.LicensePlate,
-        //        Year = vehicle.Year,
-        //        Brand = vehicle.Brand,
-        //        Model = vehicle.Model,
-        //        ClientId = vehicle.ClientId
-        //    };
+            var model = new GuardViewModel
+            {
+                GuardId = guard.GuardId,
+                LastName = guard.LastName,
+                FirstName = guard.FirstName,
+                MiddleName = guard.MiddleName,
+                Phone = guard.Phone,
+                Address = guard.Address,
+                Salary = guard.Salary,
+                ParkingLotId = guard.ParkingLotId
+            };
 
-        //    return View(model);
-        //}
+            return View(model);
+        }
 
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> EditVehicle(VehicleViewModel models)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View(models);
-        //    }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditGuard(GuardViewModel models)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(models);
+            }
 
-        //    var vehicle = new Vehicle
-        //    {
-        //        VehicleId = models.VehicleId,
-        //        LicensePlate = models.LicensePlate,
-        //        Year = models.Year,
-        //        Brand = models.Brand,
-        //        Model = models.Model,
-        //        ClientId = models.ClientId
-        //    };
+            var guard = await _guardDbStorage.GetGuardById(models.GuardId);
+            if (guard == null)
+            {
+                return NotFound();
+            }
 
-        //    await _vehicleDbStorage.UpdateVehicle(vehicle);
-        //    return RedirectToAction(nameof(Vehicles));
-        //}
+            guard.LastName = models.LastName;
+            guard.FirstName = models.FirstName;
+            guard.MiddleName = models.MiddleName;
+            guard.Phone = models.Phone;
+            guard.Address = models.Address;
+            guard.Salary = models.Salary;
+            guard.ParkingLotId = models.ParkingLotId;
 
+            await _guardDbStorage.UpdateGuard(guard);
+
+            return RedirectToAction(nameof(Guards));
+        }
 
         [HttpPost, ActionName("DeleteGuard")]
         [ValidateAntiForgeryToken]
