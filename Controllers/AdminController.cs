@@ -62,54 +62,71 @@ namespace Parking.Controllers
                 QuantitySpace = models.QuantitySpace
             };
 
+            if (models.Photo != null && models.Photo.Length > 0)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await models.Photo.CopyToAsync(memoryStream);
+                    parkingLot.Photo = memoryStream.ToArray();
+                }
+            }
+
             await _parkingLotDbStorage.AddParkingLot(parkingLot);
             return RedirectToAction(nameof(Index));
         }
 
-        //public async Task<IActionResult> EditVehicle(int id)
-        //{
-        //    var vehicle = await _vehicleDbStorage.GetVehicleById(id);
-        //    if (vehicle == null)
-        //    {
-        //        return NotFound();
-        //    }
+        public async Task<IActionResult> EditParkingLot(int id)
+        {
+            var parkingLot = await _parkingLotDbStorage.GetParkingLotById(id);
+            if (parkingLot == null)
+            {
+                return NotFound();
+            }
 
-        //    var model = new VehicleViewModel
-        //    {
-        //        VehicleId = vehicle.VehicleId,
-        //        LicensePlate = vehicle.LicensePlate,
-        //        Year = vehicle.Year,
-        //        Brand = vehicle.Brand,
-        //        Model = vehicle.Model,
-        //        ClientId = vehicle.ClientId
-        //    };
+            var model = new ParkingLotViewModel
+            {
+                ParkingLotId = parkingLot.ParkingLotId,
+                Name = parkingLot.Name,
+                Address = parkingLot.Address,
+                QuantitySpace = parkingLot.QuantitySpace
+            };
 
-        //    return View(model);
-        //}
+            return View(model);
+        }
 
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> EditVehicle(VehicleViewModel models)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View(models);
-        //    }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditParkingLot(ParkingLotViewModel models)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(models);
+            }
 
-        //    var vehicle = new Vehicle
-        //    {
-        //        VehicleId = models.VehicleId,
-        //        LicensePlate = models.LicensePlate,
-        //        Year = models.Year,
-        //        Brand = models.Brand,
-        //        Model = models.Model,
-        //        ClientId = models.ClientId
-        //    };
+            var parkingLot = await _parkingLotDbStorage.GetParkingLotById(models.ParkingLotId);
+            if (parkingLot == null)
+            {
+                return NotFound();
+            }
 
-        //    await _vehicleDbStorage.UpdateVehicle(vehicle);
-        //    return RedirectToAction(nameof(Vehicles));
-        //}
+            parkingLot.Name = models.Name;
+            parkingLot.Address = models.Address;
+            parkingLot.QuantitySpace = models.QuantitySpace;
+
+            if (models.Photo != null)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await models.Photo.CopyToAsync(memoryStream);
+                    parkingLot.Photo = memoryStream.ToArray();
+                }
+            }
+
+            await _parkingLotDbStorage.UpdateParkingLot(parkingLot);
+
+            return RedirectToAction(nameof(Index));
+        }
 
 
         [HttpPost, ActionName("DeleteParkingLot")]
@@ -201,7 +218,6 @@ namespace Parking.Controllers
 
             return View(model);
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]

@@ -37,7 +37,11 @@
 
         <div class="form__wrapper">
             <label asp-for="Photo" class="form__label" for="photo">Фото автомобиля</label>
-            <input asp-for="Photo" type="file" class="form__input" id="photo" accept="image/*" />
+            <input asp-for="Photo" type="file" id="photo" accept="image/*" class="hidden" onchange="updateFileName()" />
+            <div class="align-items-center gap-2 flex">
+                <label for="photo" class="blue__button px-3 py-1 duration-300">Выберите фото</label>
+                <span id="fileName">@((Model.Photo?.FileName != null) ? Model.Photo.FileName : "Фото не выбрано")</span>
+            </div>
             <span asp-validation-for="Photo" class="form__error"></span>
         </div>
 
@@ -48,3 +52,11 @@
         <p class="text-center"><a class="blue__link font-semibold" asp-area="" asp-controller="Admin" asp-action="Vehicles">Назад к автомобилям</a></p>
     </form>
 </div>
+
+<script>
+    function updateFileName() {
+        const input = document.getElementById('photo');
+        const fileName = input.files[0] ? input.files[0].name : '';
+        document.getElementById('fileName').innerText = fileName;
+    }
+</script>
