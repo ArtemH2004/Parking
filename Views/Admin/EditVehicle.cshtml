@@ -2,15 +2,9 @@
 
 <div class="min-vh-100 container flex items-center justify-center">
    
-    <form asp-action="EditVehicle" method="post" class="my-12 px-10 py-10 bg-white gap-6 mx-6 flex w-full flex-col items-center rounded-3xl shadow-2xl sm:px-16 sm:mx-0 sm:w-4/5 lg:w-1/2">
+    <form asp-action="EditVehicle" method="post" enctype="multipart/form-data" class="my-12 px-10 py-10 bg-white gap-6 mx-6 flex w-full flex-col items-center rounded-3xl shadow-2xl sm:px-16 sm:mx-0 sm:w-4/5 lg:w-1/2">
         @Html.AntiForgeryToken()
         <h1 class="text-center text-2xl font-semibold">Редактирование автомобиля</h1>
-
-        <div class="form__wrapper">
-            <label asp-for="ClientId" class="form__label" for="clientID">ID Клиента</label>
-            <input asp-for="ClientId" type="text" class="form__input" id="clientID" placeholder="1" />
-            <span asp-validation-for="ClientId" class="form__error"></span>
-        </div>
 
         <div class="form__wrapper">
             <label asp-for="LicensePlate" class="form__label" for="licensePlate">Госномер</label>
@@ -34,6 +28,13 @@
             <label asp-for="Model" class="form__label" for="model">Модель</label>
             <input asp-for="Model" type="text" class="form__input" id="model" placeholder="Camry" />
             <span asp-validation-for="Model" class="form__error"></span>
+        </div>
+
+
+        <div class="form__wrapper">
+            <label asp-for="ClientId" class="form__label" for="clientID">ID Клиента</label>
+            <input asp-for="ClientId" type="text" class="form__input" id="clientID" placeholder="1" />
+            <span asp-validation-for="ClientId" class="form__error"></span>
         </div>
 
         <input type="hidden" asp-for="VehicleId" />
