@@ -165,8 +165,17 @@ namespace Parking.Controllers
                 Year = models.Year,
                 Brand = models.Brand,
                 Model = models.Model,
-                ClientId = models.ClientId
+                ClientId = models.ClientId,
             };
+
+            if (models.Photo != null && models.Photo.Length > 0)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await models.Photo.CopyToAsync(memoryStream);
+                    vehicle.Photo = memoryStream.ToArray();
+                }
+            }
 
             await _vehicleDbStorage.AddVehicle(vehicle);
             return RedirectToAction(nameof(Vehicles));
@@ -203,17 +212,29 @@ namespace Parking.Controllers
                 return View(models);
             }
 
-            var vehicle = new Vehicle
+            var vehicle = await _vehicleDbStorage.GetVehicleById(models.VehicleId);
+            if (vehicle == null)
             {
-                VehicleId = models.VehicleId,
-                LicensePlate = models.LicensePlate,
-                Year = models.Year,
-                Brand = models.Brand,
-                Model = models.Model,
-                ClientId = models.ClientId
-            };
+                return NotFound();
+            }
+
+            vehicle.LicensePlate = models.LicensePlate;
+            vehicle.Year = models.Year;
+            vehicle.Brand = models.Brand;
+            vehicle.Model = models.Model;
+            vehicle.ClientId = models.ClientId;
+
+            if (models.Photo != null)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await models.Photo.CopyToAsync(memoryStream);
+                    vehicle.Photo = memoryStream.ToArray();
+                }
+            }
 
             await _vehicleDbStorage.UpdateVehicle(vehicle);
+
             return RedirectToAction(nameof(Vehicles));
         }
 
@@ -225,6 +246,7 @@ namespace Parking.Controllers
             await _vehicleDbStorage.DeleteVehicle(id);
             return RedirectToAction(nameof(Vehicles)); 
         }
+
 
         // Drivers
         public async Task<IActionResult> Drivers()

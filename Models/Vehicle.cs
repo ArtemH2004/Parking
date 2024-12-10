@@ -11,5 +11,6 @@
         public Client Client { get; set; }
         public int ContractId { get; set; }
         public Contract Contract { get; set; }
+        public byte[]? Photo { get; set; }
     }
 }

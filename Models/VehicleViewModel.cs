@@ -15,5 +15,6 @@ namespace Parking.Models
         public string Model { get; set; }
         [Required]
         public int ClientId { get; set; }
+        public IFormFile? Photo { get; set; }
     }
 }

@@ -38,8 +38,8 @@
                 <div class="gap-1 flex items-start justify-between">
                     <div class="relative h-2/5 w-2/5 sm:w-1/5 sm:h-1/5 lg:w-1/3 lg:h-1/3">
                         <img src="./images/icons/default-profile.svg"
-                             alt="@Model.LastName @Model.FirstName @Model.MiddleName Avatar"
-                             class="h-full w-full rounded-full border" />
+                        alt="@Model.LastName @Model.FirstName @Model.MiddleName Avatar"
+                        class="h-full w-full rounded-full border" />
                         <div class="bottom-0 right-0 absolute z-10">
                             <button class="blue__button-with-icon" title="Добавить">
                                 <img src="./images/icons/add.svg" alt="Add" />
@@ -92,7 +92,7 @@
                         {
                             <li class="p-3 bg-white gap-2 card__hover-button flex w-full select-none flex-col rounded-2xl shadow-2xl">
                                 <div class="relative">
-                                    <img src="./images/icons/default-car.svg" alt="Your car" class="h-full w-full rounded-xl border object-cover" />
+                                    <img src="@((vehicle.Photo == null) ? Url.Content("~/images/icons/default-car.svg") : $"data:image;base64,{Convert.ToBase64String(vehicle.Photo)}")" alt="Your car" class="h-full w-full rounded-xl border object-cover" />
                                     <div class="top-2 left-2 absolute z-10">
                                         <form asp-action="EditVehicle" asp-route-id="@vehicle.VehicleId" method="get">
                                             <button class="blue__button-with-icon" title="Изменить">
