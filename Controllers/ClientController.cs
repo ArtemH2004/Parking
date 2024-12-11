@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Parking.Data;
 using Parking.Models;
@@ -13,11 +14,13 @@ namespace Parking.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly VehicleDbStorage _vehicleDbStorage;
+        private readonly ContractDbStorage _contractDbStorage;
 
-        public ClientController(ApplicationDbContext context, VehicleDbStorage vehicleDbStorage)
+        public ClientController(ApplicationDbContext context, VehicleDbStorage vehicleDbStorage, ContractDbStorage contractDbStorage)
         {
             _context = context;
             _vehicleDbStorage = vehicleDbStorage;
+            _contractDbStorage = contractDbStorage;
         }
 
         public IActionResult Index()
@@ -90,6 +93,15 @@ namespace Parking.Controllers
                 ClientId = models.ClientId
             };
 
+            if (models.Photo != null && models.Photo.Length > 0)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await models.Photo.CopyToAsync(memoryStream);
+                    vehicle.Photo = memoryStream.ToArray();
+                }
+            }
+
             await _vehicleDbStorage.AddVehicle(vehicle);
             return RedirectToAction(nameof(Index));
         }
@@ -157,6 +169,183 @@ namespace Parking.Controllers
         {
             await _vehicleDbStorage.DeleteVehicle(id);
             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> ParkingLots()
+        {
+            var parkingLots = await _context.ParkingLots.ToListAsync();
+            return View(parkingLots);
+        }
+
+        //public async Task<IActionResult> RentParking(int id)
+        //{
+        //    var parkingLot = await _context.ParkingLots
+        //        .Include(pl => pl.Drivers)
+        //        .Include(pl => pl.Guards)
+        //        .FirstOrDefaultAsync(pl => pl.ParkingLotId == id);
+
+        //    if (parkingLot == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        //    var client = await _context.Clients
+        //        .Include(c => c.Vehicles)
+        //        .FirstOrDefaultAsync(c => c.ApplicationUserId == userId);
+
+        //    if (client == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    if (client.Vehicles == null || !client.Vehicles.Any())
+        //    {
+        //        ModelState.AddModelError("", "У вас нет автомобилей для аренды.");
+        //        return View(new RentalViewModel { ParkingLotId = id });
+        //    }
+
+        //    var model = new RentalViewModel
+        //    {
+        //        ParkingLotId = id,
+        //        Vehicles = client.Vehicles.Select(v => new SelectListItem
+        //        {
+        //            Value = v.VehicleId.ToString(),
+        //            Text = $"{v.Brand} {v.Model} ({v.LicensePlate})"
+        //        }).ToList(),
+        //        StartTime = DateTime.Now,
+        //        EndTime = DateTime.Now,
+        //        Amount = 0,
+        //        DriverId = GetRandomDriver(parkingLot.Drivers),
+        //        GuardId = GetRandomGuard(parkingLot.Guards),
+        //    };
+
+        //    return View(model);
+        //}
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> RentParking(RentalViewModel models)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View(models);
+        //    }
+
+        //    var rentalDuration = models.EndTime - models.StartTime;
+        //    var price = CalculatePrice(rentalDuration); 
+
+        //    var rentalContract = new Contract
+        //    {
+        //        ParkingLotId = models.ParkingLotId,
+        //        VehicleId = models.VehicleId,
+        //        StartDate = models.StartTime,
+        //        EndDate = models.EndTime,
+        //        Amount = price,
+        //        DriverId = models.DriverId,
+        //        GuardId = models.GuardId
+        //    };
+
+        //    await _contractDbStorage.AddContract(rentalContract);
+
+        //    return RedirectToAction(nameof(Index));
+        //}
+
+        public async Task<IActionResult> RentParking(int id)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var client = await _context.Clients
+                .Include(c => c.Vehicles)
+                .Include(c => c.Contracts)
+                    .ThenInclude(c => c.ParkingLot)
+                .FirstOrDefaultAsync(c => c.ApplicationUserId == userId);
+
+            if (client == null || (client.Vehicles == null || !client.Vehicles.Any()))
+            {
+                ModelState.AddModelError("", "У вас нет автомобилей для аренды.");
+                return View(new ContractViewModel { ParkingLotId = id });
+            }
+
+            var parkingLot = await _context.ParkingLots
+                .Include(pl => pl.Drivers)
+                .Include(pl => pl.Guards)
+                .FirstOrDefaultAsync(pl => pl.ParkingLotId == id);
+
+            if (parkingLot == null)
+            {
+                return NotFound();
+            }
+
+            var model = new ContractViewModel
+            {
+                ParkingLotId = id,
+                ClientId = client.ClientId,
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now.AddHours(1),
+                Amount = CalculatePrice(DateTime.Now.AddHours(1) - DateTime.Now),
+                Vehicles = client.Vehicles,
+                DriverId = GetRandomDriver(parkingLot.Drivers),
+                GuardId = GetRandomGuard(parkingLot.Guards),
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RentParking(ContractViewModel models)
+        {
+            if (!ModelState.IsValid || models.EndDate <= models.StartDate)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors);
+                    foreach (var error in errors)
+                    {
+                        Console.WriteLine(error.ErrorMessage);
+                    }
+                    return View(models);
+            }
+
+            var contract = new Contract
+            {
+                StartDate = models.StartDate,
+                EndDate = models.EndDate,
+                Amount = CalculatePrice(models.EndDate - models.StartDate),
+                ParkingLotId = models.ParkingLotId,
+                VehicleId = models.VehicleId,
+                ClientId = models.ClientId,
+                DriverId = models.DriverId,
+                GuardId = models.GuardId
+            };
+
+            try
+            {
+                await _contractDbStorage.AddContract(contract);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "Ошибка при создании контракта: " + ex.Message);
+                return View(models);
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+
+        private int GetRandomDriver(IEnumerable<Driver> drivers)
+        {
+            var random = new Random();
+            return drivers.ElementAt(random.Next(drivers.Count())).DriverId;
+        }
+
+        private int GetRandomGuard(IEnumerable<Guard> guards)
+        {
+            var random = new Random();
+            return guards.ElementAt(random.Next(guards.Count())).GuardId;
+        }
+
+        private decimal CalculatePrice(TimeSpan duration)
+        {
+            return (decimal)duration.TotalHours * 100;
         }
 
         private int GetCurrentClientId()

@@ -1,0 +1,56 @@
+﻿@model ContractViewModel
+
+<div class="min-vh-100 container flex items-center justify-center">
+    <form asp-action="RentParking" method="post" class="my-12 px-10 py-10 bg-white gap-6 mx-6 flex w-full flex-col items-center rounded-3xl shadow-2xl sm:px-16 sm:mx-0 sm:w-4/5 lg:w-1/2">
+        @Html.AntiForgeryToken()
+        <h1 class="text-center text-2xl font-semibold">Аренда парковки</h1>
+
+        <p>@Model.ParkingLotId @Model.DriverId @Model.GuardId @Model.VehicleId</p>
+
+        <div class="form__wrapper">
+            <label asp-for="VehicleId" class="form__label" for="vehicleId">Выберите автомобиль</label>
+            <select asp-for="VehicleId" class="form__input" name="Vehicles" id="vehicleId">
+                <option value="">- Выберите автомобиль -</option>
+                @if (Model.Vehicles != null && Model.Vehicles.Any())
+                {
+                    @foreach (var vehicle in Model.Vehicles)
+                    {
+                        <option value="@vehicle.VehicleId">@vehicle.LicensePlate - @vehicle.Brand @vehicle.Model</option>
+                    }
+                }
+                else
+                {
+                    <option disabled>Нет доступных автомобилей</option>
+                }
+            </select>
+            <span asp-validation-for="VehicleId" class="form__error"></span>
+        </div>
+
+        <div class="form__wrapper">
+            <label asp-for="StartDate" class="form__label">Начало аренды</label>
+            <input asp-for="StartDate" type="datetime-local" class="form__input" />
+            <span asp-validation-for="StartDate" class="form__error"></span>
+        </div>
+
+        <div class="form__wrapper">
+            <label asp-for="EndDate" class="form__label">Конец аренды</label>
+            <input asp-for="EndDate" type="datetime-local" class="form__input" />
+            <span asp-validation-for="EndDate" class="form__error"></span>
+        </div>
+
+        <input type="hidden" asp-for="ParkingLotId" />
+        <input type="hidden" asp-for="ClientId" />
+        <input type="hidden" asp-for="DriverId" />
+        <input type="hidden" asp-for="GuardId" />
+        <input type="hidden" asp-for="VehicleId"/> 
+
+        <div class="gap-2 flex items-center justify-between">
+            <p class="form__wrapper">Итого: </p>
+            <p>@Model.Amount</p>
+        </div>
+
+        <button type="submit" class="blue__button w-full md:w-4/5">Арендовать парковку</button>
+
+        <p class="text-center"><a class="blue__link font-semibold" asp-action="ParkingLots">Назад</a></p>
+    </form>
+</div>

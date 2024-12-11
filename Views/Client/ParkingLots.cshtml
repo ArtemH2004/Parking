@@ -1,0 +1,106 @@
+﻿@model IEnumerable<Parking.Models.ParkingLot>
+
+@{
+    ViewData["Title"] = "Parking Lots Page";
+}
+
+<header class="bg-white w-full shadow-xl">
+    <div class="py-4 gap-10 container z-10 flex w-full items-center justify-between">
+        <a href="#">
+            <span class="text-blue-500 text-3xl font-semibold">Parking</span>
+        </a>
+
+        <nav>
+            <ul class="gap-5 flex items-center justify-center text-lg md:text-xl lg:gap-8">
+                <li class="hidden md:block">
+                    <a asp-controller="Client" asp-action="ParkingLots" class="blue__link @(ViewContext.RouteData.Values["controller"].ToString() == "Client" && ViewContext.RouteData.Values["action"].ToString() == "ParkingLots" ? "active" : "")">Парковки</a>
+                </li>
+                <li class="hidden md:block">
+                    <a asp-controller="Client" asp-action="Index" class="blue__link @(ViewContext.RouteData.Values["controller"].ToString() == "Client" && ViewContext.RouteData.Values["action"].ToString() == "Index" ? "active" : "")">Профиль</a>
+                </li>
+                <li>
+                    <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" style="display:inline;">
+                        <button type="submit" class="blue__link" title="Выйти">
+                            <img src="~/images/icons/exit.svg" alt="Вход" class="w-8 h-8 object-contain" />
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<section class="my-10 min-vh-100 h-full w-full">
+    <div class="gap-4 container flex flex-col">
+        <h1 class="px-4 text-3xl font-semibold">Парковки</h1>
+
+        @if (Model != null && Model.Any())
+        {
+            <ul class="gap-6 grid grid-cols-1 lg:grid-cols-2">
+                @foreach (var parking in Model)
+                {
+                    <li class="p-6 bg-white gap-4 relative flex h-auto w-full flex-col rounded-2xl shadow-2xl duration-300 hover:-translate-y-2">
+                        <form asp-controller="Client" asp-action="RentParking" asp-route-id="@parking.ParkingLotId" method="get">
+                            <button type="submit" class="top-0 left-0 absolute z-10 h-full w-full" title="Арендовать"></button>
+                        </form>
+
+                        <h3 class="text-center text-xl font-semibold">
+                            @parking.Name
+                        </h3>
+                        <img src="@((parking.Photo != null) ? $"data:image;base64,{Convert.ToBase64String(parking.Photo)}" : Url.Content("~/images/icons/default-parking.svg"))"
+                             alt="Parking Lot Image"
+                             class="h-60 w-full rounded-lg object-cover" />
+                        <ul class="flex w-full flex-col text-nowrap">
+                            <li class="gap-2 flex items-center justify-between">
+                                <h4 class="text-black font-medium">Адрес:</h4>
+                                <div class="h-4 w-full border-b-2 border-dashed"></div>
+                                <span class="text-blue-500">@parking.Address</span>
+                            </li>
+                            <li class="gap-2 flex items-center justify-between">
+                                <h4 class="text-black font-medium">Кол-во мест:</h4>
+                                <div class="h-4 w-full border-b-2 border-dashed"></div>
+                                <span class="text-blue-500">@parking.QuantitySpace</span>
+                            </li>
+                        </ul>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p class="w-full text-center">Парковки не найдены</p>
+        }
+
+    </div>
+</section>
+
+<footer class="py-12 bg-white z-10 w-full shadow-xl">
+    <div class="container">
+        <div class="gap-10 grid grid-cols-2 items-center justify-between">
+            <div class="gap-16 flex flex-col justify-between">
+                <a href="#">
+                    <span class="text-blue-500 text-3xl font-semibold">Parking</span>
+                </a>
+
+                <p class="text-gray-500">© 2024 - Parking</p>
+            </div>
+
+            <nav>
+                <ul class="gap-6 flex flex-col items-end">
+                    <li>
+                        <a asp-controller="Client" asp-action="ParkingLots" class="blue__link text-xl">Парковки</a>
+                    </li>
+                    <li>
+                        <a asp-controller="Client" asp-action="Index" class="blue__link text-xl">Профиль</a>
+                    </li>
+                    <li>
+                        <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" style="display:inline;">
+                            <button type="submit" class="blue__link text-xl">Выйти</button>
+                        </form>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</footer>
+ 
