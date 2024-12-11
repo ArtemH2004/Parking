@@ -93,6 +93,15 @@ namespace Parking.Controllers
                 ClientId = models.ClientId
             };
 
+            if (models.Photo != null && models.Photo.Length > 0)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await models.Photo.CopyToAsync(memoryStream);
+                    vehicle.Photo = memoryStream.ToArray();
+                }
+            }
+
             await _vehicleDbStorage.AddVehicle(vehicle);
             return RedirectToAction(nameof(Index));
         }
