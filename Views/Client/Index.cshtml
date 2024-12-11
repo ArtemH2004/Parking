@@ -13,7 +13,7 @@
         <nav>
             <ul class="gap-5 flex items-center justify-center text-lg md:text-xl lg:gap-8">
                 <li class="hidden md:block">
-                    <a href="#about" class="blue__link">Парковки</a>
+                    <a asp-controller="Client" asp-action="ParkingLots" class="blue__link @(ViewContext.RouteData.Values["controller"].ToString() == "Client" && ViewContext.RouteData.Values["action"].ToString() == "ParkingLots" ? "active" : "")">Парковки</a>
                 </li>
                 <li class="hidden md:block">
                     <a asp-controller="Client" asp-action="Index" class="blue__link @(ViewContext.RouteData.Values["controller"].ToString() == "Client" && ViewContext.RouteData.Values["action"].ToString() == "Index" ? "active" : "")">Профиль</a>
@@ -94,7 +94,7 @@
                         {
                             <li class="p-3 bg-white gap-2 card__hover-button flex w-full select-none flex-col rounded-2xl shadow-2xl">
                                 <div class="relative">
-                                    <img src="@((vehicle.Photo == null) ? Url.Content("~/images/icons/default-car.svg") : $"data:image;base64,{Convert.ToBase64String(vehicle.Photo)}")" alt="Your car" class="h-full w-full rounded-xl border object-cover" />
+                                    <img src="@((vehicle.Photo == null) ? Url.Content("~/images/icons/default-car.svg") : $"data:image;base64,{Convert.ToBase64String(vehicle.Photo)}")" alt="Your car" class="aspect-square h-full w-full rounded-xl border object-cover" />
                                     <div class="top-2 left-2 absolute z-10">
                                         <form asp-action="EditVehicle" asp-route-id="@vehicle.VehicleId" method="get">
                                             <button class="blue__button-with-icon" title="Изменить">
@@ -175,7 +175,7 @@
               <li class="gap-2 flex items-center justify-between">
                 <h4 class="text-black font-medium">Стоимость (₽):</h4>
                 <div class="h-4 w-full border-b-2 border-dashed"></div>
-                <span class="text-blue-500">160</span>
+                <span class="text-blue-500">@contract.Amount</span>
               </li>
             </ul>
           </div>
@@ -227,10 +227,10 @@
             <nav>
                 <ul class="gap-6 flex flex-col items-end">
                     <li>
-                        <a href="#about" class="blue__link text-xl">Парковки</a>
+                        <a asp-controller="Client" asp-action="ParkingLots" class="blue__link text-xl">Парковки</a>
                     </li>
                     <li>
-                        <a href="#service" class="blue__link text-xl">Профиль</a>
+                        <a asp-controller="Client" asp-action="Index" class="blue__link text-xl">Профиль</a>
                     </li>
                     <li>
                         <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" style="display:inline;">

@@ -21,5 +21,6 @@ namespace Parking.Models
         public int DriverId { get; set; }
         [Required]
         public int GuardId { get; set; }
+        public IEnumerable<Vehicle> Vehicles { get; set; }
     }
 }
